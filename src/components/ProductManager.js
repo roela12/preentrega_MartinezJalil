@@ -68,6 +68,12 @@ class ProductManager {
   // Actualizamos un producto en base a su id
   updateProduct = async (id, property, value) => {
     let data = await this.getProducts();
+    if (!value) {
+      return "Ingrese un valor para actualizar";
+    }
+    if (property == "id") {
+      return "No se puede modificar un id";
+    }
     const product = data.find((product) => product.id === id);
     if (product) {
       data = data.filter((products) => products.id != id);
