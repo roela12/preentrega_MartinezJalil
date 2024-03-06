@@ -6,7 +6,7 @@ socket.on("products", (products) => {
   let myDiv = document.getElementById("products");
   myDiv.innerHTML = ""; // Vaciar el div de productos anteriores
   products.forEach((element) => {
-    myDiv.innerHTML += `<h2>${element.title}</h2>
+    myDiv.innerHTML += `<h3>${element.title}</h3>
     <p>${element.description}</p>
     <p>Precio: ${element.price}</p>
     <p>${element.thumbnail}</p>

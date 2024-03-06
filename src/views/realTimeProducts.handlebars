@@ -1,26 +1,74 @@
 <h1>Tienda de productos en tiempo real</h1>
 <h2>Agregar producto:</h2>
-<form action="localhost:8080/api/products" method="POST" id="addProductForm">
-  <input type="text" id="title" placeholder="Titulo" required />
-  <input type="text" id="description" placeholder="Descripcion" required />
-  <input type="number" id="price" placeholder="Precio" required />
-  <input type="text" id="code" placeholder="Codigo" required />
-  <input type="number" id="stock" placeholder="Stock" required />
-  <input type="text" id="category" placeholder="Categoria" required />
-  <button type="submit">Agregar producto</button>
+<form
+  action="localhost:8080/api/products"
+  method="POST"
+  id="addProductForm"
+  class="input-group mb-3"
+>
+  <input
+    class="input-group-text"
+    type="text"
+    id="title"
+    placeholder="Titulo"
+    required
+  />
+  <input
+    class="input-group-text"
+    type="text"
+    id="description"
+    placeholder="Descripcion"
+    required
+  />
+  <input
+    class="input-group-text"
+    type="number"
+    id="price"
+    placeholder="Precio"
+    required
+  />
+  <input
+    class="input-group-text"
+    type="text"
+    id="code"
+    placeholder="Codigo"
+    required
+  />
+  <input
+    class="input-group-text"
+    type="number"
+    id="stock"
+    placeholder="Stock"
+    required
+  />
+  <input
+    class="input-group-text"
+    type="text"
+    id="category"
+    placeholder="Categoria"
+    required
+  />
+  <button class="btn btn-outline-secondary" type="submit">Agregar producto</button>
 </form>
 <h2>Eliminar producto:</h2>
 <form
+  class="input-group mb-3"
   action="localhost:8080/api/products/{{this.id}}"
   method="post"
   id="deleteProductForm"
 >
-  <input type="number" id="productId" placeholder="id" required />
-  <button type="submit">Eliminar producto</button>
+  <input
+    class="input-group-text"
+    type="number"
+    id="productId"
+    placeholder="id"
+    required
+  />
+  <button class="btn btn-outline-secondary" type="submit">Eliminar producto</button>
 </form>
 <div id="products">
   {{#each products}}
-    <h2>{{this.title}}</h2>
+    <h3>{{this.title}}</h3>
     <p>{{this.description}}</p>
     <p>Precio: {{this.price}}</p>
     <p>{{this.thumbnail}}</p>
