@@ -3,7 +3,7 @@ import { promises as fs } from "fs";
 // Creamos la clase principal
 class CartManager {
   constructor() {
-    this.path = "./src/models/carts.json"; // Indicamos el path del fichero JSON donde guardaremos los carritos
+    this.path = "./src/dao/fileSystem/models/carts.json"; // Indicamos el path del fichero JSON donde guardaremos los carritos
   }
 
   // Mostramos los productos

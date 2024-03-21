@@ -3,7 +3,7 @@ import { promises as fs } from "fs";
 // Creamos la clase principal
 class ProductManager {
   constructor() {
-    this.path = "./src/models/products.json"; // Indicamos el path del fichero JSON donde guardaremos los productos
+    this.path = "./src/dao/fileSystem/models/products.json"; // Indicamos el path del fichero JSON donde guardaremos los productos
   }
 
   // Mostramos los productos
@@ -66,19 +66,12 @@ class ProductManager {
   };
 
   // Actualizamos un producto en base a su id
-  updateProduct = async (id, property, value) => {
+  updateProduct = async (id, newProduct) => {
     let data = await this.getProducts();
-    if (!value) {
-      return "Ingrese un valor para actualizar";
-    }
-    if (property == "id") {
-      return "No se puede modificar un id";
-    }
     const product = data.find((product) => product.id === id);
     if (product) {
       data = data.filter((products) => products.id != id);
-      product[property] = value;
-      data.push(product);
+      data.push(newProduct);
       await fs.writeFile(this.path, JSON.stringify(data, null, "\t"));
       return "Producto actualizado con exito";
     } else {
