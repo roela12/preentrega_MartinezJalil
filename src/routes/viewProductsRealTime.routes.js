@@ -1,19 +1,25 @@
 import { Router } from "express";
-import ProductManager from "../dao/fileSystem/managers/productManager.js";
-//import ProductManagerDb from "../dao/mongoDb/managers/productManager.js";
+import productsModel from "../dao/mongoDb/models/products.js";
 
 const ViewProductRealTimeRouter = Router();
-const products = new ProductManager();
-//const productsDb = new ProductManagerDb();
 
 // Renderizo la pagina
 ViewProductRealTimeRouter.get("/", async (req, res) => {
-  let allProducts = await products.getProducts();
-  //let allProducts = await productsDb.getAll(50);
-  res.render("realTimeProducts", {
-    title: "tienda de productos",
-    products: allProducts,
-  });
+  try {
+    const limit = parseInt(req.query.limit || 50);
+    const page = parseInt(req.query.page || 1);
+    const result = await productsModel.paginate(
+      {},
+      { page, limit: limit, lean: true }
+    );
+    res.render("realTimeProducts", {
+      title: "tienda de productos",
+      result,
+    });
+  } catch (error) {
+    console.log("Error al renderizar el listado de productos", error);
+    return res.status(404).send({ message: "Error en el servidor" });
+  }
 });
 
 export default ViewProductRealTimeRouter;

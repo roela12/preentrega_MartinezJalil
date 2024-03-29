@@ -6,19 +6,21 @@ socket.on("products", (products) => {
   let myDiv = document.getElementById("products");
   myDiv.innerHTML = ""; // Vaciar el div de productos anteriores
   products.forEach((element) => {
-    myDiv.innerHTML += `<h3>${element.title}</h3>
+    myDiv.innerHTML += `<hr />
+    <h3>${element.title}</h3>
     <p>${element.description}</p>
     <p>Precio: ${element.price}</p>
-    <p>${element.thumbnail}</p>
+    <p>${element.thumbnails}</p>
     <p>Codigo: ${element.code}</p>
     <p>Stock: ${element.stock}</p>
     <p>Categoria: ${element.category}</p>
-    <p>Id: ${element.id}</p>
-    <p>Estado: ${element.status}</p>`;
+    <p>Id: ${element._id}</p>
+    <p>Estado: ${element.status}</p>
+    <p>Marca: ${element.brand}</p>`;
   });
 });
 
-//  Escuchar el evento para agregar un nuevo producto
+// Escuchar el evento para agregar un nuevo producto
 document
   .getElementById("addProductForm")
   .addEventListener("submit", (event) => {
@@ -30,14 +32,16 @@ document
     const code = document.getElementById("code").value;
     const stock = parseInt(document.getElementById("stock").value);
     const category = document.getElementById("category").value;
+    const brand = document.getElementById("brand").value;
 
-    let data = {
+    const data = {
       title: title,
       description: description,
       price: price,
       code: code,
       stock: stock,
       category: category,
+      brand: brand,
     };
 
     socket.emit("addProductData", data);
@@ -50,8 +54,7 @@ document
   .getElementById("deleteProductForm")
   .addEventListener("submit", (event) => {
     event.preventDefault();
-    const productId = parseInt(document.getElementById("productId").value);
+    const productId = document.getElementById("productId").value;
     socket.emit("deleteProductData", productId);
-
     event.target.reset();
   });

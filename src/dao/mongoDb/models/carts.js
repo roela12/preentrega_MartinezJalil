@@ -4,18 +4,20 @@ const { Schema } = mongoose;
 const collection = "carts";
 
 const schema = new Schema({
-  products: [
-    {
-      product: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Products",
+  products: {
+    type: [
+      {
+        product: {
+          type: Schema.Types.ObjectId,
+          ref: "products",
+        },
+        quantity: {
+          type: Number,
+          require: true,
+        },
       },
-      quantity: {
-        type: Number,
-        require: true,
-      },
-    },
-  ],
+    ],
+  },
 });
 
 const cartsModel = mongoose.model(collection, schema);

@@ -1,12 +1,21 @@
 <h1>Tienda de productos</h1>
-{{#each products}}
+{{#each result.docs}}
+  <hr />
   <h3>{{this.title}}</h3>
   <p>{{this.description}}</p>
   <p>Precio: {{this.price}}</p>
-  <p>{{this.thumbnail}}</p>
+  <p>{{this.thumbnails}}</p>
   <p>Codigo: {{this.code}}</p>
   <p>Stock: {{this.stock}}</p>
   <p>Categoria: {{this.category}}</p>
-  <p>Id: {{this.id}}</p>
+  <p>Id: {{this._id}}</p>
   <p>Estado: {{this.status}}</p>
+  <p>Marca: {{this.brand}}</p>
+  <button class="btn btn-outline-secondary" type="submit">Agregar al carrito</button>
 {{/each}}
+{{#if result.hasPrevPage}}
+  <a href={{result.prevLink}}>Anterior</a>
+{{/if}}
+{{#if result.hasNextPage}}
+  <a href={{result.nextLink}}>Siguiente</a>
+{{/if}}

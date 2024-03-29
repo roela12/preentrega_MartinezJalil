@@ -1,8 +1,6 @@
 const socket = io();
 console.log("Conectado");
 
-let user;
-
 // Pregunto por el email
 window.onload = () => {
   Swal.fire({
