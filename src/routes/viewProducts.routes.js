@@ -1,44 +1,19 @@
 import { Router } from "express";
-import productsModel from "../dao/mongoDb/models/products.js";
+import ProductManagerDb from "../dao/mongoDb/managers/productManager.js";
+import { auth } from "../middlewares/auth.js";
 
 const ViewProductRouter = Router();
+const productsDb = new ProductManagerDb();
 
 // Renderizo la pagina con todos los productos
-ViewProductRouter.get("/", async (req, res) => {
+ViewProductRouter.get("/", auth, async (req, res) => {
   try {
-    const limit = parseInt(req.query.limit || 10);
-    const page = parseInt(req.query.page || 1);
-    const { category, brand, sort } = req.query;
-
-    let query = {};
-
-    if (category) {
-      query.category = category;
-    }
-
-    if (brand) {
-      query.brand = brand;
-    }
-
-    const result = await productsModel.paginate(query, {
-      page,
-      limit: limit,
-      lean: true,
-      sort: { price: sort === "asc" ? 1 : -1 },
-    });
-
-    const PORT = 8080;
-    const link = `http://localhost:${PORT}/?limit=${limit}`;
-    result.nextLink = result.hasNextPage
-      ? `${link}&page=${result.nextPage}`
-      : "";
-    result.prevLink = result.hasPrevPage
-      ? `${link}&page=${result.prevPage}`
-      : "";
-
+    const user = req.session.user;
+    const result = await productsDb.getAll(req, res);
     res.render("home", {
       title: "Tienda de productos",
       result,
+      user,
     });
   } catch (error) {
     console.log(error);

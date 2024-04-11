@@ -14,8 +14,7 @@ ProductRouter.post("/", async (req, res) => {
 
 // Mostrar productos
 ProductRouter.get("/", async (req, res) => {
-  const limit = parseInt(req.query.limit);
-  res.send(await productsDb.getAll(limit));
+  res.send(await productsDb.getAll(req, res));
 });
 
 //  Buscar un producto por id

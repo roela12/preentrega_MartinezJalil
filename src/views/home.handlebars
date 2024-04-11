@@ -1,21 +1,34 @@
 <h1>Tienda de productos</h1>
-{{#each result.docs}}
-  <hr />
-  <h3>{{this.title}}</h3>
-  <p>{{this.description}}</p>
-  <p>Precio: {{this.price}}</p>
-  <p>{{this.thumbnails}}</p>
-  <p>Codigo: {{this.code}}</p>
-  <p>Stock: {{this.stock}}</p>
-  <p>Categoria: {{this.category}}</p>
-  <p>Id: {{this._id}}</p>
-  <p>Estado: {{this.status}}</p>
-  <p>Marca: {{this.brand}}</p>
-  <button class="btn btn-outline-secondary" type="submit">Agregar al carrito</button>
-{{/each}}
-{{#if result.hasPrevPage}}
-  <a href={{result.prevLink}}>Anterior</a>
-{{/if}}
-{{#if result.hasNextPage}}
-  <a href={{result.nextLink}}>Siguiente</a>
-{{/if}}
+<div>
+  <h2>Bienvenido!</h2>
+  <p>Nombre: {{user.name}}</p>
+  <p>Email: {{user.email}}</p>
+  <p>Edad: {{user.age}}</p>
+  <p>Rol: {{user.role}}</p>
+  <form id="logout">
+    <button class="btn btn-outline-secondary" type="submit">Logout</button>
+  </form>
+</div>
+<div>
+  {{#each result.docs}}
+    <hr />
+    <h3>{{this.title}}</h3>
+    <p>{{this.description}}</p>
+    <p>Precio: {{this.price}}</p>
+    <p>{{this.thumbnails}}</p>
+    <p>Codigo: {{this.code}}</p>
+    <p>Stock: {{this.stock}}</p>
+    <p>Categoria: {{this.category}}</p>
+    <p>Id: {{this._id}}</p>
+    <p>Estado: {{this.status}}</p>
+    <p>Marca: {{this.brand}}</p>
+    <button class="btn btn-outline-secondary" type="submit">Agregar al carrito</button>
+  {{/each}}
+  {{#if result.hasPrevPage}}
+    <a href={{result.prevLink}}>Anterior</a>
+  {{/if}}
+  {{#if result.hasNextPage}}
+    <a href={{result.nextLink}}>Siguiente</a>
+  {{/if}}
+</div>
+<script src="/js/home.js"></script>
