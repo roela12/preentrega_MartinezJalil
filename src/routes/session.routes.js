@@ -61,8 +61,13 @@ SessionRouter.post("/login", async (req, res) => {
 });
 
 // Logica de cierre de sesion
-SessionRouter.get("/logout", async (req, res) => {
-  req.session.destroy();
+SessionRouter.delete("/logout", async (req, res) => {
+  req.sessionStore.destroy(req.session.id, (err) => {
+    if (err) {
+      return console.error(err);
+    }
+    console.log("sesion cerrada");
+  });
 });
 
 export default SessionRouter;
