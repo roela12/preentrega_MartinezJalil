@@ -1,73 +1,80 @@
 import { Router } from "express";
-import userModel from "../dao/mongoDb/models/users.js";
+import passport from "passport";
+import { admin } from "../middlewares/admin.js";
 
 const SessionRouter = Router();
 
 // Logica de registro
-SessionRouter.post("/register", async (req, res) => {
-  const { first_name, last_name, email, age, password } = req.body;
-  const exist = await userModel.findOne({ email: email });
-  if (exist) {
-    return res
-      .status(400)
-      .send({ status: "error", error: "el correo ya existe" });
+SessionRouter.post(
+  "/register",
+  passport.authenticate("register", { failureRedirect: "/failregister" }),
+  async (req, res) => {
+    res.status(201).send({ status: "success", message: "Usuario registrado" });
   }
-  const user = {
-    first_name,
-    last_name,
-    email,
-    age,
-    password,
-  };
-  const result = await userModel.create(user);
-  res.status(201).send({ staus: "success", payload: result });
+);
+// Ruta de error de registro
+SessionRouter.get("/failregister", async (req, res) => {
+  console.log("error");
+  res.send({ error: "Falló" });
 });
 
-// Logica de inicio de sesion
-SessionRouter.post("/login", async (req, res) => {
-  const { email, password } = req.body;
-  if (email == "adminCoder@coder.com" && password === "adminCod3er123") {
+// Logica de inicio de sesion con passport
+SessionRouter.post(
+  "/login",
+  admin,
+  passport.authenticate("login", { failureRedirect: "/faillogin" }),
+  async (req, res) => {
+    if (!req.user) return res.status(400).send("error");
     req.session.user = {
-      name: "Admin",
-      email: "adminCoder@coder.com",
-      age: "edad de admin",
-      role: "admin",
-    };
-  } else {
-    const user = await userModel.findOne({ email });
-    if (!user) {
-      return res
-        .status(400)
-        .send({ status: "error", error: "error de credenciales" });
-    }
-    const validarPass = user.password == password;
-    if (!validarPass)
-      return res
-        .status(401)
-        .send({ error: "error", message: "error de credenciales" });
-
-    req.session.user = {
-      name: `${user.first_name} ${user.last_name}`,
-      email: user.email,
-      age: user.age,
+      first_name: req.user.first_name,
+      last_name: req.user.last_name,
+      email: req.user.email,
+      age: req.user.age,
       role: "user",
     };
+    res.status(200).send({ status: "success", payload: req.user });
   }
-  res.send({
-    status: "success",
-    payload: req.session.user,
-    message: "Inicio exitoso",
-  });
+);
+// Ruta de error de inicio de sesion
+SessionRouter.get("/faillogin", async (req, res) => {
+  console.log("error");
+  res.send({ error: "Fallo" });
 });
+
+// Logica de inicio de sesion con passport y github
+SessionRouter.get(
+  "/github",
+  passport.authenticate("github", { scope: ["user:email"] }),
+  async (req, res) => {
+    res.status(200).send({ status: "success" });
+  }
+);
+// Ruta de callback de inicio de sesion con github
+SessionRouter.get(
+  "/githubcallback",
+  passport.authenticate("github", { failureRedirect: "/login" }),
+  async (req, res) => {
+    req.session.user = {
+      first_name: req.user.first_name,
+      last_name: req.user.last_name,
+      email: req.user.email,
+      age: req.user.age,
+      role: "user",
+    };
+
+    res.redirect("/");
+  }
+);
 
 // Logica de cierre de sesion
 SessionRouter.delete("/logout", async (req, res) => {
-  req.sessionStore.destroy(req.session.id, (err) => {
-    if (err) {
-      return console.error(err);
-    }
+  try {
+    req.session.destroy;
     console.log("sesion cerrada");
-  });
+    res.status(200).send({ status: "success" });
+  } catch (error) {
+    res.status(400).send({ status: "error" });
+  }
 });
 
 export default SessionRouter;

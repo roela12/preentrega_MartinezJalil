@@ -1,4 +1,5 @@
 const form = document.getElementById("loginForm");
+const error = document.getElementById("error");
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -13,9 +14,21 @@ form.addEventListener("submit", (e) => {
     },
   }).then((response) => {
     if (response.status === 200) {
-      window.location.replace("/");
+      Swal.fire({
+        title: "Inicio de sesion exitoso",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        window.location.replace("/");
+      });
     } else {
-      console.log("revisar las credenciales");
+      Swal.fire({
+        title: "Revisar las credenciales",
+        icon: "error",
+        confirmButtonText: "OK",
+      }).then(() => {
+        window.location.replace("/login");
+      });
     }
   });
 });

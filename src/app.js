@@ -5,6 +5,8 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import __dirname from "./utils.js";
 import connectDB from "./config/db.config.js";
+import passport from "passport";
+import initilizePassport from "./config/passport.config.js";
 import ProductRouter from "./routes/product.routes.js";
 import CartRouter from "./routes/cart.routes.js";
 import ViewProductRouter from "./routes/viewProducts.routes.js";
@@ -43,6 +45,12 @@ app.use(
     saveUninitialized: false,
   })
 );
+//usando passport
+initilizePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Routes
 app.use("/api/products", ProductRouter);
 app.use("/api/cart", CartRouter);
 app.use("/", ViewProductRouter);

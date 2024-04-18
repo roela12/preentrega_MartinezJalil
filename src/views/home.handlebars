@@ -1,7 +1,7 @@
 <h1>Tienda de productos</h1>
 <div>
   <h2>Bienvenido!</h2>
-  <p>Nombre: {{user.name}}</p>
+  <p>Nombre: {{user.first_name}} {{user.last_name}}</p>
   <p>Email: {{user.email}}</p>
   <p>Edad: {{user.age}}</p>
   <p>Rol: {{user.role}}</p>
@@ -32,3 +32,4 @@
   {{/if}}
 </div>
 <script src="/js/home.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

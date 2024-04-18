@@ -15,6 +15,12 @@ form.addEventListener("submit", (e) => {
     .then((response) => response.json())
     .then((json) => {
       console.log(json);
-      window.location.replace("/login");
+      Swal.fire({
+        title: "Registro exitoso",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        window.location.replace("/login");
+      });
     });
 });
