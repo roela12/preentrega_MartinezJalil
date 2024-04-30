@@ -30,7 +30,8 @@ SessionRouter.post(
       last_name: req.user.last_name,
       email: req.user.email,
       age: req.user.age,
-      role: "user",
+      role: req.user.role,
+      cart: req.user.cart,
     };
     res.status(200).send({ status: "success", payload: req.user });
   }
@@ -59,7 +60,8 @@ SessionRouter.get(
       last_name: req.user.last_name,
       email: req.user.email,
       age: req.user.age,
-      role: "user",
+      role: req.user.role,
+      cart: req.user.cart,
     };
 
     res.redirect("/");
@@ -75,6 +77,15 @@ SessionRouter.delete("/logout", async (req, res) => {
   } catch (error) {
     res.status(400).send({ status: "error" });
   }
+});
+
+// Renderizo la vista que muestra el usuario actual
+SessionRouter.get("/current", (req, res) => {
+  const user = req.session.user;
+  res.render("current", {
+    title: "Sesion actual",
+    user,
+  });
 });
 
 export default SessionRouter;

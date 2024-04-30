@@ -5,6 +5,11 @@
   <p>Email: {{user.email}}</p>
   <p>Edad: {{user.age}}</p>
   <p>Rol: {{user.role}}</p>
+  {{#if user.cart}}
+    <p>Carrito: user.cart</p>
+  {{else}}
+    <p>Carrito: No hay nada en el carrito</p>
+  {{/if}}
   <form id="logout">
     <button class="btn btn-outline-secondary" type="submit">Logout</button>
   </form>

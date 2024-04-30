@@ -1,0 +1,13 @@
+{{#if user}}
+  <p>Nombre: {{user.first_name}} {{user.last_name}}</p>
+  <p>Email: {{user.email}}</p>
+  <p>Edad: {{user.age}}</p>
+  <p>Rol: {{user.role}}</p>
+  {{#if user.cart}}
+    <p>Carrito: user.cart</p>
+  {{else}}
+    <p>Carrito: No hay nada en el carrito</p>
+  {{/if}}
+{{else}}
+  <p>No hay ninguna sesion iniciada</p>
+{{/if}}
