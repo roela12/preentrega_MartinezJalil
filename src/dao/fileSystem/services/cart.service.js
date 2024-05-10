@@ -6,14 +6,14 @@ class CartManager {
     this.path = "./src/dao/fileSystem/models/carts.json"; // Indicamos el path del fichero JSON donde guardaremos los carritos
   }
 
-  // Mostramos los productos
+  // Mostramos los carritos
   getCarts = async () => {
     const data = JSON.parse(await fs.readFile(this.path, "utf-8"));
     return data;
   };
 
   // Agregamos un carrito
-  addCart = async () => {
+  createCart = async () => {
     const data = await this.getCarts();
     // Verificamos que el id no se repita
     let count = 1;
@@ -41,7 +41,7 @@ class CartManager {
   };
 
   //  Agregar un producto al carrito
-  addProductToCart = async (cartId, productId) => {
+  addProduct = async (cartId, productId) => {
     let data = await this.getCarts();
     const cart = data.find((cart1) => cart1.id === parseInt(cartId));
     if (cart) {

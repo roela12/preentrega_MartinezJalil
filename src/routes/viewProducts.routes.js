@@ -1,15 +1,15 @@
 import { Router } from "express";
-import ProductManagerDb from "../dao/mongoDb/managers/productManager.js";
+import ProductManager from "../dao/mongoDb/services/product.service.js";
 import { auth } from "../middlewares/auth.js";
 
-const ViewProductRouter = Router();
-const productsDb = new ProductManagerDb();
+const router = Router();
+const products = new ProductManager();
 
 // Renderizo la pagina con todos los productos
-ViewProductRouter.get("/", auth, async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
     const user = req.session.user;
-    const result = await productsDb.getAll(req, res);
+    const result = await products.getAll(req, res);
     res.render("home", {
       title: "Tienda de productos",
       result,
@@ -21,4 +21,4 @@ ViewProductRouter.get("/", auth, async (req, res) => {
   }
 });
 
-export default ViewProductRouter;
+export default router;

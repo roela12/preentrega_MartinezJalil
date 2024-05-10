@@ -3,9 +3,9 @@ import { Server } from "socket.io";
 import handlebars from "express-handlebars";
 import session from "express-session";
 import MongoStore from "connect-mongo";
-import __dirname from "./utils.js";
-import connectDB from "./config/db.config.js";
 import passport from "passport";
+import __dirname from "./utils.js";
+import { entorno } from "./config/dotenv.config.js";
 import initilizePassport from "./config/passport.config.js";
 import ProductRouter from "./routes/product.routes.js";
 import CartRouter from "./routes/cart.routes.js";
@@ -17,15 +17,12 @@ import SessionRouter from "./routes/session.routes.js";
 import ViewSessionRouter from "./routes/viewSession.routes.js";
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || entorno.port;
 
 // Settings
 app.engine("handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
 app.set("views", __dirname + "/views");
-
-// Conecto la base de datos
-connectDB();
 
 // Middlewares
 app.use(express.json());
@@ -36,16 +33,15 @@ app.use(express.static(__dirname + "/public"));
 app.use(
   session({
     store: new MongoStore({
-      mongoUrl:
-        "mongodb+srv://roela:q7eVnTKYLe10HQSs@cluster0.vyrxwok.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+      mongoUrl: entorno.mongoUrl,
       ttl: 3600,
     }),
-    secret: "Secret",
+    secret: entorno.secretSession,
     resave: false,
     saveUninitialized: false,
   })
 );
-//usando passport
+// Usando passport
 initilizePassport();
 app.use(passport.initialize());
 app.use(passport.session());
@@ -68,10 +64,10 @@ const server = app.listen(PORT, () =>
 
 // WebSocket
 const io = new Server(server);
-import ProductManagerDb from "./dao/mongoDb/managers/productManager.js";
-import ChatManager from "./dao/mongoDb/managers/messageManager.js";
-const productsDb = new ProductManagerDb();
-const messages = new ChatManager();
+import ProductService from "./dao/mongoDb/services/product.service.js";
+import ChatService from "./dao/mongoDb/services/message.service.js";
+const products = new ProductService();
+const messages = new ChatService();
 const msg = [];
 
 // Socket events
@@ -79,13 +75,13 @@ io.on("connection", (socket) => {
   console.log("Usuario conectado");
 
   socket.on("addProductData", async (product) => {
-    await productsDb.addProduct(product);
-    socket.emit("products", await productsDb.getAll(50));
+    await products.addProduct(product);
+    socket.emit("products", await products.getAll(50));
   });
 
   socket.on("deleteProductData", async (id) => {
-    await productsDb.deleteProduct(id);
-    socket.emit("products", await productsDb.getAll(50));
+    await products.deleteProduct(id);
+    socket.emit("products", await products.getAll(50));
   });
 
   socket.on("message", async (data) => {

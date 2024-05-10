@@ -1,39 +1,23 @@
 import { Router } from "express";
-import ProductManagerDb from "../dao/mongoDb/managers/productManager.js";
+import productController from "../controllers/product.controller.js";
 
-const ProductRouter = Router();
-const productsDb = new ProductManagerDb();
+const router = Router();
 
 // Rutas
 
 // Agregar producto
-ProductRouter.post("/", async (req, res) => {
-  const product = req.body;
-  res.send(await productsDb.addProduct(product));
-});
+router.post("/", productController.addProduct);
 
 // Mostrar productos
-ProductRouter.get("/", async (req, res) => {
-  res.send(await productsDb.getAll(req, res));
-});
+router.get("/", productController.getAll);
 
 //  Buscar un producto por id
-ProductRouter.get("/:pid", async (req, res) => {
-  const id = req.params.pid;
-  res.send(await productsDb.getById(id));
-});
+router.get("/:pid", productController.getById);
 
 // Borrar un producto por id
-ProductRouter.delete("/:pid", async (req, res) => {
-  const id = req.params.pid;
-  res.send(await productsDb.deleteProduct(id));
-});
+router.delete("/:pid", productController.deleteProduct);
 
 // Actualizar un producto
-ProductRouter.put("/:pid", async (req, res) => {
-  const id = req.params.pid;
-  let product = req.body;
-  res.send(await productsDb.updateProduct(id, product));
-});
+router.put("/:pid", productController.updateProduct);
 
-export default ProductRouter;
+export default router;

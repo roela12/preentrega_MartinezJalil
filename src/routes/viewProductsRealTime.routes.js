@@ -1,10 +1,10 @@
 import { Router } from "express";
-import productsModel from "../dao/mongoDb/models/products.js";
+import productsModel from "../dao/mongoDb/models/product.model.js";
 
-const ViewProductRealTimeRouter = Router();
+const router = Router();
 
 // Renderizo la pagina
-ViewProductRealTimeRouter.get("/", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const limit = parseInt(req.query.limit || 50);
     const page = parseInt(req.query.page || 1);
@@ -22,4 +22,4 @@ ViewProductRealTimeRouter.get("/", async (req, res) => {
   }
 });
 
-export default ViewProductRealTimeRouter;
+export default router;

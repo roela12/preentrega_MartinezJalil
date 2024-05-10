@@ -1,9 +1,9 @@
 import { Router } from "express";
 
-const ViewChatRouter = Router();
+const router = Router();
 
 // Renderizo la pagina con el chat
-ViewChatRouter.get("/", (req, res) => {
+router.get("/", (req, res) => {
   try {
     res.render("chat", { title: "Chat" });
   } catch (error) {
@@ -12,4 +12,4 @@ ViewChatRouter.get("/", (req, res) => {
   }
 });
 
-export default ViewChatRouter;
+export default router;

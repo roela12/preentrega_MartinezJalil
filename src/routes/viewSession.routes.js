@@ -1,15 +1,15 @@
 import { Router } from "express";
 
-const ViewSessionRouter = Router();
+const router = Router();
 
 // Renderizo la vista de registro
-ViewSessionRouter.get("/register", (req, res) => {
+router.get("/register", (req, res) => {
   res.render("register");
 });
 
 // Renderizo la vista de inicio de sesion
-ViewSessionRouter.get("/login", (req, res) => {
+router.get("/login", (req, res) => {
   res.render("login");
 });
 
-export default ViewSessionRouter;
+export default router;

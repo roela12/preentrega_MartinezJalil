@@ -1,14 +1,14 @@
 import { Router } from "express";
-import CartManagerDb from "../dao/mongoDb/managers/cartManager.js";
+import CartManager from "../dao/mongoDb/services/cart.service.js";
 
-const ViewCartRouter = Router();
-const cartsDb = new CartManagerDb();
+const router = Router();
+const carts = new CartManager();
 
 // Renderizo la pagina con el carrito
-ViewCartRouter.get("/", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const cid = req.query.cid;
-    const result = await cartsDb.getCartById(cid);
+    const result = await carts.getCartById(cid);
     const result2 = JSON.parse(JSON.stringify(result));
     res.render("cart", { title: "Cart", result2 });
   } catch (error) {
@@ -16,4 +16,4 @@ ViewCartRouter.get("/", async (req, res) => {
   }
 });
 
-export default ViewCartRouter;
+export default router;

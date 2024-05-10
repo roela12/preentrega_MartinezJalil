@@ -1,55 +1,29 @@
 import { Router } from "express";
-import CartManagerDb from "../dao/mongoDb/managers/cartManager.js";
+import cartController from "../controllers/cart.controller.js";
 
-const CartRouter = Router();
-const cartsDb = new CartManagerDb();
+const router = Router();
 
 // Rutas
 
 // Crear carrito
-CartRouter.post("/", async (req, res) => {
-  res.send(await cartsDb.createCart());
-});
+router.post("/", cartController.createCart);
 
 //  Mostrar carrito por id
-CartRouter.get("/:cid", async (req, res) => {
-  const id = req.params.cid;
-  res.send(await cartsDb.getCartById(id));
-});
+router.get("/:cid", cartController.getCartById);
 
 // Agregar producto al carrito de compras
-CartRouter.post("/:cid/product/:pid", async (req, res) => {
-  const cartId = req.params.cid;
-  const productId = req.params.pid;
-  res.send(await cartsDb.addProduct(cartId, productId, 1));
-});
+router.post("/:cid/product/:pid", cartController.addProduct);
 
 // Borrar un producto de un carrito de compras
-CartRouter.delete("/:cid/product/:pid", async (req, res) => {
-  const cartId = req.params.cid;
-  const productId = req.params.pid;
-  res.send(await cartsDb.deleteProduct(cartId, productId));
-});
+router.delete("/:cid/product/:pid", cartController.deleteProduct);
 
 // Borrar todos los productos de un carrito de compras
-CartRouter.delete("/:cid", async (req, res) => {
-  const cartId = req.params.cid;
-  res.send(await cartsDb.deleteAllProductsFromCart(cartId));
-});
+router.delete("/:cid", cartController.deleteAllProductsFromCart);
 
 // Actualizo todo el array de productos de un carrito
-CartRouter.put("/:cid", async (req, res) => {
-  const cartId = req.params.cid;
-  const productsArray = req.body;
-  res.send(await cartsDb.updateCart(cartId, productsArray));
-});
+router.put("/:cid", cartController.updateCart);
 
 // Actualizo la cantidad de un producto seleccionado
-CartRouter.put("/:cid/product/:pid", async (req, res) => {
-  const cartId = req.params.cid;
-  const productId = req.params.pid;
-  const quantity = req.body.quantity;
-  res.send(await cartsDb.updateQuantity(cartId, productId, quantity));
-});
+router.put("/:cid/product/:pid", cartController.updateQuantity);
 
-export default CartRouter;
+export default router;

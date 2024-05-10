@@ -1,6 +1,7 @@
-import productsModel from "../models/products.js";
+import productsModel from "../models/product.model.js";
+import { entorno } from "../../../config/dotenv.config.js";
 
-export default class ProductManagerDb {
+export default class ProductService {
   constructor() {}
 
   // Devuelvo todos los productos
@@ -27,7 +28,7 @@ export default class ProductManagerDb {
         sort: { price: sort === "asc" ? 1 : -1 },
       });
 
-      const PORT = 8080;
+      const PORT = entorno.port;
       const link = `http://localhost:${PORT}/?limit=${limit}`;
       result.nextLink = result.hasNextPage
         ? `${link}&page=${result.nextPage}`
@@ -52,16 +53,7 @@ export default class ProductManagerDb {
       return null;
     }
   };
-  // Busco por marca
-  getByBrand = async (brand) => {
-    try {
-      const result = await productsModel.find({ brand: brand });
-      return result;
-    } catch (error) {
-      console.log("Ha ocurrido un error intentando buscar por marca", error);
-      return [];
-    }
-  };
+
   // Agrego un producto
   addProduct = async (product) => {
     try {
@@ -93,6 +85,16 @@ export default class ProductManagerDb {
       return result;
     } catch (error) {
       console.log("No se ha podido eliminar el producto");
+    }
+  };
+  // Busco por marca
+  getByBrand = async (brand) => {
+    try {
+      const result = await productsModel.find({ brand: brand });
+      return result;
+    } catch (error) {
+      console.log("Ha ocurrido un error intentando buscar por marca", error);
+      return [];
     }
   };
 }

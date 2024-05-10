@@ -1,6 +1,6 @@
-import cartsModel from "../models/carts.js";
+import cartsModel from "../models/cart.model.js";
 
-export default class CartManagerDb {
+export default class CartService {
   constructor() {}
 
   // Creo un nuevo carrito

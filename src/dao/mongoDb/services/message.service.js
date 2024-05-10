@@ -1,6 +1,6 @@
-import messagesModel from "../models/messages.js";
+import messagesModel from "../models/message.model.js";
 
-export default class ChatManager {
+export default class ChatService {
   constructor() {}
   // Agrego el mensaje nuevo a la base de datos
   addMessage = async (message) => {

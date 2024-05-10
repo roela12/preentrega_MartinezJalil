@@ -1,11 +1,10 @@
 import mongoose from "mongoose";
+import { entorno } from "./dotenv.config.js";
 
 // MongoDb
 const connectDB = async () => {
-  const password = "q7eVnTKYLe10HQSs";
-  const DB_URL = `mongodb+srv://roela:${password}@cluster0.vyrxwok.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
   try {
-    await mongoose.connect(DB_URL);
+    await mongoose.connect(entorno.mongoUrl);
     console.log("conectado a mongo");
   } catch (error) {
     console.error("no se conecto a mongo");

@@ -7,9 +7,20 @@ class ProductManager {
   }
 
   // Mostramos los productos
-  getProducts = async () => {
+  getAll = async () => {
     const data = JSON.parse(await fs.readFile(this.path, "utf-8"));
     return data;
+  };
+
+  // Buscamos el producto por su id
+  getById = async (id) => {
+    const data = await this.getProducts();
+    const product = data.find((product) => product.id === id);
+    if (product) {
+      return product;
+    } else {
+      return "Producto no encontrado";
+    }
   };
 
   // Agregamos un nuevo producto
@@ -51,17 +62,6 @@ class ProductManager {
       }
     } else {
       return "Todos los campos son obligatorios, excepto thumbnail";
-    }
-  };
-
-  // Buscamos el producto por su id
-  getProductById = async (id) => {
-    const data = await this.getProducts();
-    const product = data.find((product) => product.id === id);
-    if (product) {
-      return product;
-    } else {
-      return "Producto no encontrado";
     }
   };
 
