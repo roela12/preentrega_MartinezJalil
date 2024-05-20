@@ -14,7 +14,7 @@ class ProductManager {
 
   // Buscamos el producto por su id
   getById = async (id) => {
-    const data = await this.getProducts();
+    const data = await this.getAll();
     const product = data.find((product) => product.id === id);
     if (product) {
       return product;
@@ -25,7 +25,7 @@ class ProductManager {
 
   // Agregamos un nuevo producto
   addProduct = async (product) => {
-    const data = await this.getProducts();
+    const data = await this.getAll();
     // Verificamos que el id no se repita
     let count = 1;
     while (data.find((product1) => product1.id === count)) {
@@ -44,7 +44,8 @@ class ProductManager {
       product.price &&
       product.code &&
       product.stock &&
-      product.category
+      product.category &&
+      product.brand
     ) {
       if (
         typeof product.title === "string" &&
@@ -52,7 +53,8 @@ class ProductManager {
         typeof product.price === "number" &&
         typeof product.code === "string" &&
         typeof product.stock === "number" &&
-        typeof product.category === "string"
+        typeof product.category === "string" &&
+        typeof product.brand === "string"
       ) {
         data.push(product);
         await fs.writeFile(this.path, JSON.stringify(data, null, "\t"));
@@ -67,7 +69,7 @@ class ProductManager {
 
   // Actualizamos un producto en base a su id
   updateProduct = async (id, newProduct) => {
-    let data = await this.getProducts();
+    let data = await this.getAll();
     const product = data.find((product) => product.id === id);
     if (product) {
       data = data.filter((products) => products.id != id);
@@ -81,12 +83,22 @@ class ProductManager {
 
   // Borramos un producto en base a su id
   deleteProduct = async (id) => {
-    const data = await this.getProducts();
+    const data = await this.getAll();
     const product = data.find((product) => product.id === id);
     if (product) {
       const newData = data.filter((products) => products.id != id);
       await fs.writeFile(this.path, JSON.stringify(newData, null, "\t"));
       return "Producto borrado con exito";
+    } else {
+      return "Producto no encontrado";
+    }
+  };
+  // Buscamos el producto por marca
+  getById = async (brand) => {
+    const data = await this.getAll();
+    const product = data.find((product) => product.brand === brand);
+    if (product) {
+      return product;
     } else {
       return "Producto no encontrado";
     }

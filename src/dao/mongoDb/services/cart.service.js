@@ -3,6 +3,16 @@ import cartsModel from "../models/cart.model.js";
 export default class CartService {
   constructor() {}
 
+  // Mostramos los carritos
+  getCarts = async () => {
+    try {
+      const result = await cartsModel.find({});
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // Creo un nuevo carrito
   createCart = async () => {
     try {
