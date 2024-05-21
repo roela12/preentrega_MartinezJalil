@@ -1,4 +1,7 @@
 import cartsModel from "../models/cart.model.js";
+import productsModel from "../models/product.model.js";
+import ticketsModel from "../models/ticket.model.js";
+import { generateRandomCode } from "../../../utils.js";
 
 export default class CartService {
   constructor() {}
@@ -100,6 +103,50 @@ export default class CartService {
       );
       cart.products[product].quantity = quantity;
       return await cart.save();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Compramos los productos del carrito
+  purchaseCart = async (cid, uEmail) => {
+    try {
+      const cart = await cartsModel.findById(cid);
+      const products = cart.products;
+      let nonPurchased = [];
+      let nonPurchasedId = [];
+      let amount = 0;
+      // Actualizamos el stock de los productos
+      products.forEach(async (element) => {
+        const product = await productsModel.findById(element.product);
+        if (product.stock >= element.quantity) {
+          amount += element.quantity * product.price;
+          product.stock -= element.quantity;
+          await product.save();
+        } else {
+          nonPurchased.push(element);
+          nonPurchasedId.push(element.product);
+        }
+      });
+      // Generamos el ticket de compra
+      const tickets = await ticketsModel.find({});
+      let randomCode = generateRandomCode(7);
+      tickets.forEach((element) => {
+        if (element.code == randomCode) {
+          randomCode = generateRandomCode(7);
+        }
+      });
+      const ticket = {
+        code: randomCode,
+        amount: amount,
+        purchaser: uEmail,
+      };
+      await ticketsModel.create(ticket);
+      await this.deleteAllProductsFromCart(cid);
+      if (nonPurchased) {
+        await this.updateCart(cid, nonPurchased);
+        return nonPurchasedId;
+      }
     } catch (error) {
       console.log(error);
     }

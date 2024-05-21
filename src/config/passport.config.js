@@ -3,7 +3,9 @@ import local from "passport-local";
 import GitHubStrategy from "passport-github2";
 import userService from "../dao/mongoDb/models/user.model.js";
 import { createHash, isValidPassword } from "../utils.js";
+import CartService from "../dao/mongoDb/services/cart.service.js";
 
+const cartService = new CartService();
 const LocalStrategy = local.Strategy;
 
 const initializePassport = () => {
@@ -22,12 +24,14 @@ const initializePassport = () => {
             return done(null, false);
           }
 
+          const cart = await cartService.createCart();
           const newUser = {
             first_name,
             last_name,
             email,
             age,
             password: createHash(password),
+            cart: cart._id,
           };
 
           // Guardar el usuario
@@ -77,12 +81,14 @@ const initializePassport = () => {
           });
           // Si no existe lo creamos
           if (!user) {
+            const cart = await cartService.createCart();
             const newUser = {
               first_name: profile._json.name,
               last_name: "",
               age: 0,
               email: profile._json.email,
               password: "",
+              cart: cart._id,
             };
             // Guardamos el usuario en la db
             let createdUser = await userService.create(newUser);

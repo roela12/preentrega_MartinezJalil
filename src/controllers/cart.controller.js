@@ -35,6 +35,16 @@ const cartController = {
     const quantity = req.body.quantity;
     res.send(await carts.updateQuantity(cartId, productId, quantity));
   },
+  purchaseCart: async (req, res) => {
+    const cartId = req.params.cid;
+    let userEmail;
+    if (req.user) {
+      userEmail = req.user.email;
+    } else {
+      userEmail = "no email registered";
+    }
+    res.send(await carts.purchaseCart(cartId, userEmail));
+  },
 };
 
 export default cartController;

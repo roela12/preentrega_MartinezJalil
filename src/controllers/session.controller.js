@@ -1,3 +1,5 @@
+import userRepository from "../repositories/user.repository.js";
+
 const sessionController = {
   register: async (req, res) => {
     res.status(201).send({ status: "success", message: "Usuario registrado" });
@@ -47,7 +49,7 @@ const sessionController = {
     }
   },
   current: (req, res) => {
-    const user = req.session.user;
+    const user = userRepository.createUser(req.session.user);
     res.render("current", {
       title: "Sesion actual",
       user,

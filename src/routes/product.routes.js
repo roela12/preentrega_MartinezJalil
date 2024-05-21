@@ -1,12 +1,13 @@
 import { Router } from "express";
 import productController from "../controllers/product.controller.js";
+import { isAdmin } from "../middlewares/isAdmin.js";
 
 const router = Router();
 
 // Rutas
 
 // Agregar producto
-router.post("/", productController.addProduct);
+router.post("/", isAdmin, productController.addProduct);
 
 // Mostrar productos
 router.get("/", productController.getAll);
@@ -15,9 +16,9 @@ router.get("/", productController.getAll);
 router.get("/:pid", productController.getById);
 
 // Borrar un producto por id
-router.delete("/:pid", productController.deleteProduct);
+router.delete("/:pid", isAdmin, productController.deleteProduct);
 
 // Actualizar un producto
-router.put("/:pid", productController.updateProduct);
+router.put("/:pid", isAdmin, productController.updateProduct);
 
 export default router;

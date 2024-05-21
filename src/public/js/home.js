@@ -1,6 +1,26 @@
-const form = document.getElementById("logout");
+const logoutForm = document.getElementById("logout");
+const addToCartForm = document.querySelectorAll(".addToCart");
+const cid = document.querySelector(".cartId").id;
 
-form.addEventListener("submit", (e) => {
+for (let i = 0; i < addToCartForm.length; i++) {
+  addToCartForm[i].addEventListener("submit", (e) => {
+    e.preventDefault();
+    const pid = addToCartForm[i].id;
+    fetch(`/api/cart/${cid}/product/${pid}`, {
+      method: "POST",
+    }).then((response) => {
+      if (response.status === 200) {
+        Swal.fire({
+          title: "Producto agregado al carrito",
+          icon: "success",
+          confirmButtonText: "OK",
+        });
+      }
+    });
+  });
+}
+
+logoutForm.addEventListener("submit", (e) => {
   e.preventDefault();
   fetch("/api/sessions/logout", {
     method: "DELETE",

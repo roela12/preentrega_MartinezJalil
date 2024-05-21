@@ -66,6 +66,7 @@ const server = app.listen(PORT, () =>
 const io = new Server(server);
 import ProductService from "./dao/mongoDb/services/product.service.js";
 import ChatService from "./dao/mongoDb/services/message.service.js";
+import { isUser } from "./middlewares/isUser.js";
 const products = new ProductService();
 const messages = new ChatService();
 const msg = [];
@@ -76,15 +77,15 @@ io.on("connection", (socket) => {
 
   socket.on("addProductData", async (product) => {
     await products.addProduct(product);
-    socket.emit("products", await products.getAll(50));
+    socket.emit("products", await products.getAll());
   });
 
   socket.on("deleteProductData", async (id) => {
     await products.deleteProduct(id);
-    socket.emit("products", await products.getAll(50));
+    socket.emit("products", await products.getAll());
   });
 
-  socket.on("message", async (data) => {
+  socket.on("message", isUser, async (data) => {
     msg.push(data);
     await messages.addMessage(data);
     io.emit("messageLogs", msg);

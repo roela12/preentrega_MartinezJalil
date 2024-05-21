@@ -1,12 +1,12 @@
 <h1>Tienda de productos</h1>
 <div>
   <h2>Bienvenido!</h2>
-  <p>Nombre: {{user.first_name}} {{user.last_name}}</p>
+  <p>Nombre: {{user.name}}</p>
   <p>Email: {{user.email}}</p>
   <p>Edad: {{user.age}}</p>
   <p>Rol: {{user.role}}</p>
   {{#if user.cart}}
-    <p>Carrito: user.cart</p>
+    <p class="cartId" id="{{user.cart}}">Carrito: {{user.cart}}</p>
   {{else}}
     <p>Carrito: No hay nada en el carrito</p>
   {{/if}}
@@ -27,8 +27,11 @@
     <p>Id: {{this._id}}</p>
     <p>Estado: {{this.status}}</p>
     <p>Marca: {{this.brand}}</p>
-    <button class="btn btn-outline-secondary" type="submit">Agregar al carrito</button>
+    <form class="addToCart" id="{{this._id}}">
+      <button class="btn btn-outline-secondary" type="submit">Agregar al carrito</button>
+    </form>
   {{/each}}
+  <br /><br />
   {{#if result.hasPrevPage}}
     <a href={{result.prevLink}}>Anterior</a>
   {{/if}}

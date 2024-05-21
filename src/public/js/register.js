@@ -11,9 +11,8 @@ form.addEventListener("submit", (e) => {
     headers: {
       "Content-Type": "application/json",
     },
-  })
-    .then((response) => response.json())
-    .then((json) => {
+  }).then((response) => {
+    if (response.status === 201) {
       console.log(json);
       Swal.fire({
         title: "Registro exitoso",
@@ -22,5 +21,12 @@ form.addEventListener("submit", (e) => {
       }).then(() => {
         window.location.replace("/login");
       });
-    });
+    } else {
+      Swal.fire({
+        title: "El usuario ya existe",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
+    }
+  });
 });
