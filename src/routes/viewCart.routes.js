@@ -1,8 +1,8 @@
 import { Router } from "express";
-import CartManager from "../dao/mongoDb/services/cart.service.js";
+import CartMongoDao from "../DAOs/mongo/cart.mongo.dao.js";
 
 const router = Router();
-const carts = new CartManager();
+const carts = new CartMongoDao();
 
 // Renderizo la pagina con el carrito
 router.get("/", async (req, res) => {

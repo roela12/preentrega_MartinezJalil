@@ -1,6 +1,6 @@
-import messagesModel from "../models/message.model.js";
+import messagesModel from "./models/message.model.js";
 
-export default class ChatService {
+export default class MessageMongoDao {
   constructor() {}
   // Agrego el mensaje nuevo a la base de datos
   addMessage = async (message) => {
@@ -10,6 +10,7 @@ export default class ChatService {
       return result;
     } catch (error) {
       console.log(error);
+      return null;
     }
   };
 }

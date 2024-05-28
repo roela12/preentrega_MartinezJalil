@@ -1,7 +1,7 @@
-import productsModel from "../models/product.model.js";
-import { entorno } from "../../../config/dotenv.config.js";
+import productsModel from "./models/product.model.js";
+import { entorno } from "../../config/dotenv.config.js";
 
-export default class ProductService {
+export default class ProductMongoDao {
   constructor() {}
 
   // Devuelvo todos los productos
@@ -40,7 +40,7 @@ export default class ProductService {
       return result;
     } catch (error) {
       console.log(error);
-      res.status(500).send({ message: "Error en el servidor" });
+      return null;
     }
   };
   // Busco por id
@@ -49,7 +49,7 @@ export default class ProductService {
       const result = await productsModel.findById(id);
       return result;
     } catch (error) {
-      console.log("No se ha encontrado el producto con ese ID", error);
+      console.log(error);
       return null;
     }
   };
@@ -61,7 +61,8 @@ export default class ProductService {
       console.log("Producto agregado");
       return result;
     } catch (error) {
-      console.log("Error en el servidor", error);
+      console.log(error);
+      return null;
     }
   };
   // Actualizo un producto
@@ -74,7 +75,8 @@ export default class ProductService {
       console.log("Producto actualizado");
       return result;
     } catch (error) {
-      console.log("Error al actualizar el producto", error);
+      console.log(error);
+      return null;
     }
   };
   // Borro un producto
@@ -84,7 +86,8 @@ export default class ProductService {
       console.log("Producto eliminado");
       return result;
     } catch (error) {
-      console.log("No se ha podido eliminar el producto");
+      console.log(error);
+      return null;
     }
   };
   // Busco por marca
@@ -93,8 +96,8 @@ export default class ProductService {
       const result = await productsModel.find({ brand: brand });
       return result;
     } catch (error) {
-      console.log("Ha ocurrido un error intentando buscar por marca", error);
-      return [];
+      console.log(error);
+      return null;
     }
   };
 }

@@ -3,7 +3,7 @@ import { promises as fs } from "fs";
 // Creamos la clase principal
 class CartManager {
   constructor() {
-    this.path = "./src/dao/fileSystem/models/carts.json"; // Indicamos el path del fichero JSON donde guardaremos los carritos
+    this.path = "./src/dao/fileSystem/files/carts.json"; // Indicamos el path del fichero JSON donde guardaremos los carritos
   }
 
   // Mostramos los carritos
@@ -136,6 +136,10 @@ class CartManager {
     } else {
       return "El carrito no existe";
     }
+  };
+  // Compramos los productos del carrito
+  purchaseCart = async (cid, uEmail) => {
+    return console.log("todavia no esta hecho");
   };
 }
 export default CartManager;

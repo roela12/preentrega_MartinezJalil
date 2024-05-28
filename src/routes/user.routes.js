@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from "passport";
-import sessionController from "../controllers/session.controller.js";
+import userController from "../controllers/user.controller.js";
 import { admin } from "../middlewares/admin.js";
 
 const router = Router();
@@ -9,41 +9,41 @@ const router = Router();
 router.post(
   "/register",
   passport.authenticate("register", { failureRedirect: "/failregister" }),
-  sessionController.register
+  userController.register
 );
 
 // Ruta de error de registro
-router.get("/failregister", sessionController.registerError);
+router.get("/failregister", userController.registerError);
 
 // Logica de inicio de sesion con passport
 router.post(
   "/login",
   admin,
   passport.authenticate("login", { failureRedirect: "/faillogin" }),
-  sessionController.login
+  userController.login
 );
 
 // Ruta de error de inicio de sesion
-router.get("/faillogin", sessionController.loginError);
+router.get("/faillogin", userController.loginError);
 
 // Logica de inicio de sesion con passport y github
 router.get(
   "/github",
   passport.authenticate("github", { scope: ["user:email"] }),
-  sessionController.loginGithub
+  userController.loginGithub
 );
 
 // Ruta de callback de inicio de sesion con github
 router.get(
   "/githubcallback",
   passport.authenticate("github", { failureRedirect: "/login" }),
-  sessionController.callbackGithub
+  userController.callbackGithub
 );
 
 // Logica de cierre de sesion
-router.delete("/logout", sessionController.logout);
+router.delete("/logout", userController.logout);
 
 // Renderizo la vista que muestra el usuario actual
-router.get("/current", sessionController.current);
+router.get("/current", userController.current);
 
 export default router;

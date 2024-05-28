@@ -1,11 +1,11 @@
 import passport from "passport";
 import local from "passport-local";
 import GitHubStrategy from "passport-github2";
-import userService from "../dao/mongoDb/models/user.model.js";
+import userModel from "../DAOs/mongo/models/user.model.js";
 import { createHash, isValidPassword } from "../utils.js";
-import CartService from "../dao/mongoDb/services/cart.service.js";
+import CartMongoDao from "../DAOs/mongo/cart.mongo.dao.js";
 
-const cartService = new CartService();
+const cartService = new CartMongoDao();
 const LocalStrategy = local.Strategy;
 
 const initializePassport = () => {
@@ -18,7 +18,7 @@ const initializePassport = () => {
         const { first_name, last_name, email, age } = req.body;
 
         try {
-          const user = await userService.findOne({ email: username });
+          const user = await userModel.findOne({ email: username });
           if (user) {
             console.log("el usuario ya existe");
             return done(null, false);
@@ -35,7 +35,7 @@ const initializePassport = () => {
           };
 
           // Guardar el usuario
-          const result = await userService.create(newUser);
+          const result = await userModel.create(newUser);
           return done(null, result); // Exito
         } catch (error) {
           return done(error); // Error
@@ -51,7 +51,7 @@ const initializePassport = () => {
       { usernameField: "email" },
       async (username, password, done) => {
         try {
-          const user = await userService.findOne({ email: username });
+          const user = await userModel.findOne({ email: username });
           if (!user) return done(null, false);
           const valid = isValidPassword(user, password);
           if (!valid) return done(null, false);
@@ -76,7 +76,7 @@ const initializePassport = () => {
       async (accessToken, refreshToken, profile, done) => {
         try {
           // Buscamos en la db el email
-          const user = await userService.findOne({
+          const user = await userModel.findOne({
             email: profile._json.email,
           });
           // Si no existe lo creamos
@@ -91,7 +91,7 @@ const initializePassport = () => {
               cart: cart._id,
             };
             // Guardamos el usuario en la db
-            let createdUser = await userService.create(newUser);
+            let createdUser = await userModel.create(newUser);
             done(null, createdUser);
           } else {
             done(null, user);
@@ -110,7 +110,7 @@ const initializePassport = () => {
 
   passport.deserializeUser(async (id, done) => {
     try {
-      let user = await userService.findById(id);
+      let user = await userModel.findById(id);
       done(null, user);
     } catch (error) {
       done(error);

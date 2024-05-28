@@ -1,9 +1,9 @@
-import cartsModel from "../models/cart.model.js";
-import productsModel from "../models/product.model.js";
-import ticketsModel from "../models/ticket.model.js";
-import { generateRandomCode } from "../../../utils.js";
+import cartsModel from "./models/cart.model.js";
+import productsModel from "./models/product.model.js";
+import ticketsModel from "./models/ticket.model.js";
+import { generateRandomCode } from "../../utils.js";
 
-export default class CartService {
+export default class CartMongoDao {
   constructor() {}
 
   // Mostramos los carritos
@@ -13,6 +13,7 @@ export default class CartService {
       return result;
     } catch (error) {
       console.log(error);
+      return null;
     }
   };
 
@@ -24,6 +25,7 @@ export default class CartService {
       return result;
     } catch (error) {
       console.log(error);
+      return null;
     }
   };
 
@@ -34,6 +36,7 @@ export default class CartService {
       return result;
     } catch (error) {
       console.log(error);
+      return null;
     }
   };
 
@@ -54,6 +57,7 @@ export default class CartService {
       return await cart.save();
     } catch (error) {
       console.log(error);
+      return null;
     }
   };
 
@@ -69,6 +73,7 @@ export default class CartService {
       return await cart.save();
     } catch (error) {
       console.log(error);
+      return null;
     }
   };
 
@@ -80,6 +85,7 @@ export default class CartService {
       return await cart.save();
     } catch (error) {
       console.log(error);
+      return null;
     }
   };
 
@@ -91,6 +97,7 @@ export default class CartService {
       return await cart.save();
     } catch (error) {
       console.log(error);
+      return null;
     }
   };
 
@@ -105,6 +112,7 @@ export default class CartService {
       return await cart.save();
     } catch (error) {
       console.log(error);
+      return null;
     }
   };
 
@@ -149,6 +157,7 @@ export default class CartService {
       }
     } catch (error) {
       console.log(error);
+      return null;
     }
   };
 }

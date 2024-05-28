@@ -13,7 +13,7 @@ import ViewProductRouter from "./routes/viewProducts.routes.js";
 import ViewProductRealTimeRouter from "./routes/viewProductsRealTime.routes.js";
 import ViewChatRouter from "./routes/viewChat.routes.js";
 import ViewCartRouter from "./routes/viewCart.routes.js";
-import SessionRouter from "./routes/session.routes.js";
+import UserRouter from "./routes/user.routes.js";
 import ViewSessionRouter from "./routes/viewSession.routes.js";
 
 const app = express();
@@ -55,7 +55,7 @@ app.use("/realtimeproducts", ViewProductRealTimeRouter);
 app.use("/chat", ViewChatRouter);
 app.use("/cart", ViewCartRouter);
 app.use("/", ViewSessionRouter);
-app.use("/api/sessions", SessionRouter);
+app.use("/api/sessions", UserRouter);
 
 // Listeners
 const server = app.listen(PORT, () =>
@@ -64,11 +64,11 @@ const server = app.listen(PORT, () =>
 
 // WebSocket
 const io = new Server(server);
-import ProductService from "./dao/mongoDb/services/product.service.js";
-import ChatService from "./dao/mongoDb/services/message.service.js";
+import ProductMongoDao from "./DAOs/mongo/product.mongo.dao.js";
+import MessageMongoDao from "./DAOs/mongo/message.mongo.dao.js";
 import { isUser } from "./middlewares/isUser.js";
-const products = new ProductService();
-const messages = new ChatService();
+const products = new ProductMongoDao();
+const messages = new MessageMongoDao();
 const msg = [];
 
 // Socket events

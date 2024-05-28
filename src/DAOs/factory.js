@@ -8,21 +8,21 @@ switch (entorno.persistence) {
   case "MONGO":
     connectDB();
     const { default: ProductsMongo } = await import(
-      "../dao/mongoDb/services/product.service.js"
+      "../DAOs/mongo/product.mongo.dao.js"
     );
     Products = ProductsMongo;
     const { default: CartsMongo } = await import(
-      "../dao/mongoDb/services/cart.service.js"
+      "../DAOs/mongo/cart.mongo.dao.js"
     );
     Carts = CartsMongo;
     break;
   case "FS":
     const { default: ProductsMemory } = await import(
-      "../dao/fileSystem/services/product.service.js"
+      "../DAOs/fileSystem/product.fileSystem.dao.js"
     );
     Products = ProductsMemory;
     const { default: CartsMemory } = await import(
-      "../dao/fileSystem/services/cart.service.js"
+      "../DAOs/fileSystem/cart.fileSystem.dao.js"
     );
     Carts = CartsMemory;
     break;
