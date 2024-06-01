@@ -1,6 +1,7 @@
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import bcrypt from "bcrypt";
+import { faker } from "@faker-js/faker";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -20,6 +21,20 @@ export function generateRandomCode(length) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
+}
+
+export function generateProduct() {
+  return {
+    title: faker.commerce.productName(),
+    description: faker.commerce.productDescription(),
+    code: generateRandomCode(10),
+    category: faker.commerce.department(),
+    brand: faker.company.name(),
+    price: faker.commerce.price(),
+    stock: faker.number.int(1000),
+    status: true,
+    thumbnails: [],
+  };
 }
 
 export default __dirname;
