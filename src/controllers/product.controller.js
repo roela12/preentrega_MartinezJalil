@@ -1,32 +1,94 @@
 import ProductService from "../services/product.service.js";
+import CustomError from "../errors/customError.js";
+import errorTypes from "../errors/errorTypes.js";
 
 const products = new ProductService();
 
 const productController = {
   // Agregar un producto
-  addProduct: async (req, res) => {
-    const product = req.body;
-    res.send(await products.addProduct(product));
+  addProduct: async (req, res, next) => {
+    try {
+      const product = req.body;
+      const result = await products.addProduct(product);
+      if (!result) {
+        CustomError.createError(
+          "Produt not added",
+          "something went wrong",
+          errorTypes.INTERNAL_SERVER_ERROR
+        );
+      }
+      res.send(result).status(200);
+    } catch (error) {
+      next(error);
+    }
   },
   // Mostrar todos los productos
-  getAll: async (req, res) => {
-    res.send(await products.getAll(req, res));
+  getAll: async (req, res, next) => {
+    try {
+      const result = await products.getAll(req, res);
+      if (!result) {
+        CustomError.createError(
+          "Produts not found",
+          "something went wrong",
+          errorTypes.NOT_FOUND
+        );
+      }
+      res.send(result).status(200);
+    } catch (error) {
+      next(error);
+    }
   },
   // Mostrar producto por id
-  getById: async (req, res) => {
-    const id = req.params.pid;
-    res.send(await products.getById(id));
+  getById: async (req, res, next) => {
+    try {
+      const id = req.params.pid;
+      const product = await products.getById(id);
+      if (!product) {
+        CustomError.createError(
+          "Produt not found",
+          "invalid product id",
+          errorTypes.NOT_FOUND
+        );
+      }
+      res.send(product).status(200);
+    } catch (error) {
+      next(error);
+    }
   },
-  // Borrar productoi por id
-  deleteProduct: async (req, res) => {
-    const id = req.params.pid;
-    res.send(await products.deleteProduct(id));
+  // Borrar producto por id
+  deleteProduct: async (req, res, next) => {
+    try {
+      const id = req.params.pid;
+      const result = await products.deleteProduct(id);
+      if (!result) {
+        CustomError.createError(
+          "Produt not deleted",
+          "invalid product id",
+          errorTypes.NOT_FOUND
+        );
+      }
+      res.send(result).status(200);
+    } catch (error) {
+      next(error);
+    }
   },
   // Actualizar producto por uno pasado por el req body
-  updateProduct: async (req, res) => {
-    const id = req.params.pid;
-    let product = req.body;
-    res.send(await products.updateProduct(id, product));
+  updateProduct: async (req, res, next) => {
+    try {
+      const id = req.params.pid;
+      let product = req.body;
+      const result = await products.updateProduct(id, product);
+      if (!result) {
+        CustomError.createError(
+          "Produt not updated",
+          "invalid product id",
+          errorTypes.NOT_FOUND
+        );
+      }
+      res.send(result).status(200);
+    } catch (error) {
+      next(error);
+    }
   },
 };
 

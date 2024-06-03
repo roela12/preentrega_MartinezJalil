@@ -1,16 +1,26 @@
+import CustomError from "../errors/customError.js";
+import errorTypes from "../errors/errorTypes.js";
+
 export function isUser(req, res, next) {
   try {
     if (req.user) {
       if (req.user.role == "user") {
         next();
       } else {
-        console.log("acceso no autorizado");
-        res.status(401).send({ status: "error" });
+        CustomError.createError(
+          "Not authorized user",
+          "invalid role",
+          errorTypes.UNAUTHORIZED
+        );
       }
     } else {
-      console.log("acceso no autorizado");
+      CustomError.createError(
+        "Not authorized user",
+        "invalid role",
+        errorTypes.UNAUTHORIZED
+      );
     }
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 }

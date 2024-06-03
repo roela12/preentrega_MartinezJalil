@@ -15,6 +15,7 @@ import ViewChatRouter from "./routes/viewChat.routes.js";
 import ViewCartRouter from "./routes/viewCart.routes.js";
 import UserRouter from "./routes/user.routes.js";
 import ViewSessionRouter from "./routes/viewSession.routes.js";
+import errorHandler from "./middlewares/errorHandler.js";
 
 const app = express();
 const PORT = process.env.PORT || entorno.port;
@@ -56,6 +57,8 @@ app.use("/chat", ViewChatRouter);
 app.use("/cart", ViewCartRouter);
 app.use("/", ViewSessionRouter);
 app.use("/api/sessions", UserRouter);
+// Errors
+app.use(errorHandler);
 
 // Listeners
 const server = app.listen(PORT, () =>

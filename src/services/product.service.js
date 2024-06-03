@@ -17,14 +17,14 @@ export default class ProductService {
 
   // Agrego un producto
   addProduct = async (product) => {
-    await products.addProduct(product);
+    return await products.addProduct(product);
   };
   // Actualizo un producto
   updateProduct = async (id, product) => {
-    await products.updateProduct(id, product);
+    return await products.updateProduct(id, product);
   };
   // Borro un producto
   deleteProduct = async (id) => {
-    await products.deleteProduct(id);
+    return await products.deleteProduct(id);
   };
 }

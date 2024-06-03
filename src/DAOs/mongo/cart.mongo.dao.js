@@ -20,9 +20,8 @@ export default class CartMongoDao {
   // Creo un nuevo carrito
   createCart = async () => {
     try {
-      const result = await cartsModel.create({});
-      console.log("Carrito creado");
-      return result;
+      await cartsModel.create({});
+      return "Carrito creado";
     } catch (error) {
       console.log(error);
       return null;
@@ -47,14 +46,17 @@ export default class CartMongoDao {
       const product = cart.products.find(
         (product) => product.product.toString() === pid
       );
-
+      if (!cart) {
+        return null;
+      }
       if (product) {
         product.quantity += quantity;
       } else {
         cart.products.push({ product: pid, quantity });
+        return null;
       }
-      console.log("Producto agregado");
-      return await cart.save();
+      await cart.save();
+      return "producto agregado";
     } catch (error) {
       console.log(error);
       return null;
@@ -68,9 +70,15 @@ export default class CartMongoDao {
       const product = cart.products.findIndex(
         (product) => product.product.toString() === pid
       );
+      if (!cart) {
+        return null;
+      }
+      if (!product) {
+        return null;
+      }
       cart.products.splice(product, 1);
-      console.log("Producto eliminado");
-      return await cart.save();
+      await cart.save();
+      return "Producto eliminado";
     } catch (error) {
       console.log(error);
       return null;
@@ -81,8 +89,12 @@ export default class CartMongoDao {
   deleteAllProductsFromCart = async (cid) => {
     try {
       const cart = await cartsModel.findById(cid);
+      if (!cart) {
+        return null;
+      }
       cart.products = [];
-      return await cart.save();
+      await cart.save();
+      return "Productos eliminados";
     } catch (error) {
       console.log(error);
       return null;
@@ -93,8 +105,12 @@ export default class CartMongoDao {
   updateCart = async (cid, data) => {
     try {
       const cart = await cartsModel.findById(cid);
+      if (!cart) {
+        return null;
+      }
       cart.products = data;
-      return await cart.save();
+      await cart.save();
+      return "carrito actualizado";
     } catch (error) {
       console.log(error);
       return null;
@@ -108,8 +124,15 @@ export default class CartMongoDao {
       const product = cart.products.findIndex(
         (product) => product.product.toString() === pid
       );
+      if (!cart) {
+        return null;
+      }
+      if (!product) {
+        return null;
+      }
       cart.products[product].quantity = quantity;
-      return await cart.save();
+      await cart.save();
+      return "cantidad actualizada";
     } catch (error) {
       console.log(error);
       return null;

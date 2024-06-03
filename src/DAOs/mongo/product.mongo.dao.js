@@ -57,9 +57,8 @@ export default class ProductMongoDao {
   // Agrego un producto
   addProduct = async (product) => {
     try {
-      const result = await productsModel.create(product);
-      console.log("Producto agregado");
-      return result;
+      await productsModel.create(product);
+      return "Producto agregado";
     } catch (error) {
       console.log(error);
       return null;
@@ -68,12 +67,8 @@ export default class ProductMongoDao {
   // Actualizo un producto
   updateProduct = async (id, product) => {
     try {
-      const result = await productsModel.updateOne(
-        { _id: id },
-        { $set: product }
-      );
-      console.log("Producto actualizado");
-      return result;
+      await productsModel.updateOne({ _id: id }, { $set: product });
+      return "Producto actualizado";
     } catch (error) {
       console.log(error);
       return null;
@@ -82,9 +77,8 @@ export default class ProductMongoDao {
   // Borro un producto
   deleteProduct = async (id) => {
     try {
-      const result = await productsModel.deleteOne({ _id: id });
-      console.log("Producto eliminado");
-      return result;
+      await productsModel.deleteOne({ _id: id });
+      return "Producto eliminado";
     } catch (error) {
       console.log(error);
       return null;

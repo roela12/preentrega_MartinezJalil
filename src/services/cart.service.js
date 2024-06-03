@@ -8,7 +8,7 @@ export default class CartService {
 
   // Creo un nuevo carrito
   createCart = async () => {
-    await carts.createCart();
+    return await carts.createCart();
   };
 
   // Busco por id
@@ -18,27 +18,27 @@ export default class CartService {
 
   // Agrego un producto a un carrito
   addProduct = async (cid, pid) => {
-    await carts.addProduct(cid, pid, 1);
+    return await carts.addProduct(cid, pid, 1);
   };
 
   // Borro un producto de un carrito
   deleteProduct = async (cid, pid) => {
-    await carts.deleteProduct(cid, pid);
+    return await carts.deleteProduct(cid, pid);
   };
 
   // Borro todos los productos de un carrito
   deleteAllProductsFromCart = async (cid) => {
-    await carts.deleteAllProductsFromCart(cid);
+    return await carts.deleteAllProductsFromCart(cid);
   };
 
   // Actualizo los productos de el carrito por uno pasado por req.body
   updateCart = async (cid, data) => {
-    await carts.updateCart(cid, data);
+    return await carts.updateCart(cid, data);
   };
 
   // Actualizo la cantidad de un producto seleccionado
   updateQuantity = async (cid, pid, quantity) => {
-    await carts.updateQuantity(cid, pid, quantity);
+    return await carts.updateQuantity(cid, pid, quantity);
   };
 
   // Compramos los productos del carrito
