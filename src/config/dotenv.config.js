@@ -7,4 +7,5 @@ export const entorno = {
   mongoUrl: process.env.URL_MONGO,
   persistence: process.env.PERSISTENCE,
   secretSession: process.env.SECRET_SESSION,
+  environment: process.env.ENVIRONMENT,
 };

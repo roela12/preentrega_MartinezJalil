@@ -139,7 +139,7 @@ class CartManager {
   };
   // Compramos los productos del carrito
   purchaseCart = async (cid, uEmail) => {
-    return console.log("todavia no esta hecho");
+    return "todavia no esta hecho";
   };
 }
 export default CartManager;

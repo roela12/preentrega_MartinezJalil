@@ -4,6 +4,7 @@ import GitHubStrategy from "passport-github2";
 import userModel from "../DAOs/mongo/models/user.model.js";
 import { createHash, isValidPassword } from "../utils.js";
 import CartMongoDao from "../DAOs/mongo/cart.mongo.dao.js";
+import { logger } from "../utils/logger.js";
 
 const cartService = new CartMongoDao();
 const LocalStrategy = local.Strategy;
@@ -20,7 +21,7 @@ const initializePassport = () => {
         try {
           const user = await userModel.findOne({ email: username });
           if (user) {
-            console.log("el usuario ya existe");
+            logger.warn("el usuario ya existe");
             return done(null, false);
           }
 

@@ -12,7 +12,6 @@ export default class CartMongoDao {
       const result = await cartsModel.find({});
       return result;
     } catch (error) {
-      console.log(error);
       return null;
     }
   };
@@ -23,7 +22,6 @@ export default class CartMongoDao {
       await cartsModel.create({});
       return "Carrito creado";
     } catch (error) {
-      console.log(error);
       return null;
     }
   };
@@ -34,7 +32,6 @@ export default class CartMongoDao {
       const result = await cartsModel.findById(id).populate("products.product");
       return result;
     } catch (error) {
-      console.log(error);
       return null;
     }
   };
@@ -58,7 +55,6 @@ export default class CartMongoDao {
       await cart.save();
       return "producto agregado";
     } catch (error) {
-      console.log(error);
       return null;
     }
   };
@@ -80,7 +76,6 @@ export default class CartMongoDao {
       await cart.save();
       return "Producto eliminado";
     } catch (error) {
-      console.log(error);
       return null;
     }
   };
@@ -96,7 +91,6 @@ export default class CartMongoDao {
       await cart.save();
       return "Productos eliminados";
     } catch (error) {
-      console.log(error);
       return null;
     }
   };
@@ -112,7 +106,6 @@ export default class CartMongoDao {
       await cart.save();
       return "carrito actualizado";
     } catch (error) {
-      console.log(error);
       return null;
     }
   };
@@ -134,7 +127,6 @@ export default class CartMongoDao {
       await cart.save();
       return "cantidad actualizada";
     } catch (error) {
-      console.log(error);
       return null;
     }
   };
@@ -179,7 +171,6 @@ export default class CartMongoDao {
         return nonPurchasedId;
       }
     } catch (error) {
-      console.log(error);
       return null;
     }
   };

@@ -17,8 +17,7 @@ router.get("/", async (req, res) => {
       result,
     });
   } catch (error) {
-    console.log("Error al renderizar el listado de productos", error);
-    return res.status(404).send({ message: "Error en el servidor" });
+    res.send(error);
   }
 });
 

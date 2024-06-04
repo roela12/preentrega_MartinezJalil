@@ -16,9 +16,11 @@ import ViewCartRouter from "./routes/viewCart.routes.js";
 import UserRouter from "./routes/user.routes.js";
 import ViewSessionRouter from "./routes/viewSession.routes.js";
 import errorHandler from "./middlewares/errorHandler.js";
+import { addLogger, logger } from "./utils/logger.js";
+import LoggerTestRouter from "./routes/loggerTest.routes.js";
 
 const app = express();
-const PORT = process.env.PORT || entorno.port;
+const PORT = entorno.port;
 
 // Settings
 app.engine("handlebars", handlebars.engine());
@@ -29,7 +31,6 @@ app.set("views", __dirname + "/views");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname + "/public"));
-
 // Session
 app.use(
   session({
@@ -42,11 +43,12 @@ app.use(
     saveUninitialized: false,
   })
 );
-// Usando passport
+// Passport
 initilizePassport();
 app.use(passport.initialize());
 app.use(passport.session());
-
+// Logger
+app.use(addLogger);
 // Routes
 app.use("/api/products", ProductRouter);
 app.use("/api/cart", CartRouter);
@@ -57,12 +59,13 @@ app.use("/chat", ViewChatRouter);
 app.use("/cart", ViewCartRouter);
 app.use("/", ViewSessionRouter);
 app.use("/api/sessions", UserRouter);
+app.use("/loggerTest", LoggerTestRouter);
 // Errors
 app.use(errorHandler);
 
 // Listeners
 const server = app.listen(PORT, () =>
-  console.log("Servidor corriendo en el puerto", PORT)
+  logger.info(`Servidor corriendo en el puerto ${PORT}`)
 );
 
 // WebSocket
@@ -73,10 +76,9 @@ import { isUser } from "./middlewares/isUser.js";
 const products = new ProductMongoDao();
 const messages = new MessageMongoDao();
 const msg = [];
-
 // Socket events
 io.on("connection", (socket) => {
-  console.log("Usuario conectado");
+  logger.info("Usuario conectado");
 
   socket.on("addProductData", async (product) => {
     await products.addProduct(product);
@@ -95,6 +97,6 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    console.log("Usuario desconectado");
+    logger.info("Usuario desconectado");
   });
 });

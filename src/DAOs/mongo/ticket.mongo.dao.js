@@ -6,7 +6,6 @@ export default class ticketMongoDao {
     try {
       return await ticketModel.find({});
     } catch (error) {
-      console.log(error);
       return null;
     }
   };
@@ -15,7 +14,6 @@ export default class ticketMongoDao {
     try {
       return await ticketModel.findById(id);
     } catch (error) {
-      console.log(error);
       return null;
     }
   };

@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
 import { entorno } from "./dotenv.config.js";
+import { logger } from "../utils/logger.js";
 
 // MongoDb
 const connectDB = async () => {
   try {
     await mongoose.connect(entorno.mongoUrl);
-    console.log("conectado a mongo");
+    logger.info("conectado a mongo");
   } catch (error) {
-    console.error("no se conecto a mongo");
+    logger.error("no se conecto a mongo");
     process.exit();
   }
 };

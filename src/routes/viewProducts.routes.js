@@ -18,8 +18,7 @@ router.get("/", auth, async (req, res) => {
       user,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).send({ message: "Error en el servidor" });
+    res.send(error);
   }
 });
 
@@ -31,7 +30,7 @@ router.get("/mockingproducts", (req, res) => {
     }
     res.send(products);
   } catch (error) {
-    console.log(error);
+    res.send(error);
     return null;
   }
 });

@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
     const result2 = JSON.parse(JSON.stringify(result));
     res.render("cart", { title: "Cart", result2 });
   } catch (error) {
-    console.log(error);
+    res.send(error);
   }
 });
 

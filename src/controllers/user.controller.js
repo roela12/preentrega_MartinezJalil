@@ -11,7 +11,6 @@ const userController = {
     res.status(201).send({ status: "success", message: "Usuario registrado" });
   },
   registerError: async (req, res) => {
-    console.log("error");
     res.send({ error: "Falló" });
   },
   // Inicio de sesion
@@ -38,7 +37,6 @@ const userController = {
     }
   },
   loginError: async (req, res) => {
-    console.log("error");
     res.send({ error: "Fallo" });
   },
   // Inicio de sesion con github
@@ -61,7 +59,6 @@ const userController = {
   logout: async (req, res) => {
     try {
       req.session.destroy();
-      console.log("sesion cerrada");
       res.status(200).send({ status: "success" });
     } catch (error) {
       res.status(400).send({ status: "error" });

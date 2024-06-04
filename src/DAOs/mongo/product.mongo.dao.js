@@ -39,7 +39,6 @@ export default class ProductMongoDao {
 
       return result;
     } catch (error) {
-      console.log(error);
       return null;
     }
   };
@@ -49,7 +48,6 @@ export default class ProductMongoDao {
       const result = await productsModel.findById(id);
       return result;
     } catch (error) {
-      console.log(error);
       return null;
     }
   };
@@ -60,7 +58,6 @@ export default class ProductMongoDao {
       await productsModel.create(product);
       return "Producto agregado";
     } catch (error) {
-      console.log(error);
       return null;
     }
   };
@@ -70,7 +67,6 @@ export default class ProductMongoDao {
       await productsModel.updateOne({ _id: id }, { $set: product });
       return "Producto actualizado";
     } catch (error) {
-      console.log(error);
       return null;
     }
   };
@@ -80,7 +76,6 @@ export default class ProductMongoDao {
       await productsModel.deleteOne({ _id: id });
       return "Producto eliminado";
     } catch (error) {
-      console.log(error);
       return null;
     }
   };
@@ -90,7 +85,6 @@ export default class ProductMongoDao {
       const result = await productsModel.find({ brand: brand });
       return result;
     } catch (error) {
-      console.log(error);
       return null;
     }
   };

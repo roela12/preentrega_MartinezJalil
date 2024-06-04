@@ -6,7 +6,6 @@ export default class userMongoDao {
     try {
       return await userModel.find({});
     } catch (error) {
-      console.log(error);
       return null;
     }
   };
@@ -15,7 +14,6 @@ export default class userMongoDao {
     try {
       return await userModel.findById(id);
     } catch (error) {
-      console.log(error);
       return null;
     }
   };
