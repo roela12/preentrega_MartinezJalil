@@ -1,20 +1,20 @@
-const form = document.getElementById("registerForm");
+const form = document.getElementById("passwordForm");
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const data = new FormData(form);
   const obj = {};
   data.forEach((value, key) => (obj[key] = value));
-  fetch("/api/sessions/register", {
+  fetch("/api/users/rescue-password", {
     method: "POST",
     body: JSON.stringify(obj),
     headers: {
       "Content-Type": "application/json",
     },
   }).then((response) => {
-    if (response.status === 201) {
+    if (response.status === 200) {
       Swal.fire({
-        title: "Registro exitoso",
+        title: "Contraseña cambiada",
         icon: "success",
         confirmButtonText: "OK",
       }).then(() => {
@@ -22,7 +22,7 @@ form.addEventListener("submit", (e) => {
       });
     } else {
       Swal.fire({
-        title: "El usuario ya existe",
+        title: "Ocurrió un error inesperado, intente de nuevo mas tarde",
         icon: "error",
         confirmButtonText: "OK",
       });

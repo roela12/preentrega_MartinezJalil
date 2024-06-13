@@ -94,7 +94,7 @@ class ProductManager {
     }
   };
   // Buscamos el producto por marca
-  getById = async (brand) => {
+  getByBrand = async (brand) => {
     const data = await this.getAll();
     const product = data.find((product) => product.brand === brand);
     if (product) {

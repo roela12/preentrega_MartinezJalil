@@ -1,80 +1,14 @@
-import userDTO from "../DTOs/user.dto.js";
+import { userService } from "../repositories/services.js";
+import { generateToken, validateToken, createHash } from "../utils.js";
+import MailingService from "../services/mailing.js";
 import CustomError from "../errors/customError.js";
 import errorTypes from "../errors/errorTypes.js";
-import userService from "../services/user.service.js";
-
-const user = new userService();
 
 const userController = {
-  // Registro
-  register: async (req, res) => {
-    res.status(201).send({ status: "success", message: "Usuario registrado" });
-  },
-  registerError: async (req, res) => {
-    res.send({ error: "Falló" });
-  },
-  // Inicio de sesion
-  login: async (req, res, next) => {
-    try {
-      if (!req.user) {
-        CustomError.createError(
-          "User not found",
-          "invalid credentials",
-          errorTypes.NOT_FOUND
-        );
-      }
-      req.session.user = {
-        first_name: req.user.first_name,
-        last_name: req.user.last_name,
-        email: req.user.email,
-        age: req.user.age,
-        role: req.user.role,
-        cart: req.user.cart,
-      };
-      res.status(200).send({ status: "success", payload: req.user });
-    } catch (error) {
-      next(error);
-    }
-  },
-  loginError: async (req, res) => {
-    res.send({ error: "Fallo" });
-  },
-  // Inicio de sesion con github
-  loginGithub: async (req, res) => {
-    res.status(200).send({ status: "success" });
-  },
-  callbackGithub: async (req, res) => {
-    req.session.user = {
-      first_name: req.user.first_name,
-      last_name: req.user.last_name,
-      email: req.user.email,
-      age: req.user.age,
-      role: req.user.role,
-      cart: req.user.cart,
-    };
-
-    res.redirect("/");
-  },
-  // Cierre de sesion
-  logout: async (req, res) => {
-    try {
-      req.session.destroy();
-      res.status(200).send({ status: "success" });
-    } catch (error) {
-      res.status(400).send({ status: "error" });
-    }
-  },
-  current: (req, res) => {
-    const user = new userDTO(req.session.user);
-    res.render("current", {
-      title: "Sesion actual",
-      user,
-    });
-  },
   // Mostrar usuarios
   getUsers: async (req, res, next) => {
     try {
-      const result = await user.getUsers();
+      const result = await userService.getUsers();
       if (!result) {
         CustomError.createError(
           "Users not found",
@@ -91,7 +25,7 @@ const userController = {
   getById: async (req, res, next) => {
     try {
       const id = req.params.id;
-      const result = await user.getById(id);
+      const result = await userService.getById(id);
       if (!result) {
         CustomError.createError(
           "User not found",
@@ -104,6 +38,80 @@ const userController = {
       next(error);
     }
   },
-};
+  // Mostrar usuarios por email
+  getByEmail: async (req, res, next) => {
+    try {
+      const email = req.params.email;
+      const result = await userService.getByEmail(email);
+      if (!result) {
+        CustomError.createError(
+          "User not found",
+          "invalid user email",
+          errorTypes.NOT_FOUND
+        );
+      }
+      res.send(result).status(200);
+    } catch (error) {
+      next(error);
+    }
+  },
+  // Recuperacion de contrasena
+  recoverPassword: async (req, res, next) => {
+    try {
+      const { email } = req.body;
+      const user = await userService.getByEmail(email);
+      if (!user) {
+        CustomError.createError(
+          "User not found",
+          "invalid user email",
+          errorTypes.NOT_FOUND
+        );
+      }
+      const token = generateToken(user._id);
+      const mailingService = new MailingService();
+      const mail = await mailingService.sendSimpleMail({
+        from: "Preentrega Martinez",
+        to: user.email,
+        subject: "Recuperacion de contraseña",
+        html: `
+          <div>
+            <h1>Haz click en el siguiente enlace para recuperar tu contraseña</h1>
+            <a href="http://localhost:8080/api/users/rescue-password/${token}">Recuperar contraseña</a>
+          </div>`,
+      });
 
+      res.send(mail).status(200);
+    } catch (error) {
+      next(error);
+    }
+  },
+  recoverPasswordToken: async (req, res, next) => {
+    try {
+      const token = req.params.token;
+      const decoded = validateToken(token);
+      if (!decoded) {
+        CustomError.createError(
+          "token expired",
+          "token expired",
+          errorTypes.BAD_REQUEST
+        );
+      }
+      req.session.userId = decoded.userId;
+      res.redirect("/rescue-password");
+      res.status(200);
+    } catch (error) {
+      next(error);
+    }
+  },
+  updatePassword: async (req, res, next) => {
+    try {
+      const { password } = req.body;
+      const userId = req.session.userId;
+      await userService.updatePassword(userId, createHash(password));
+      res.send({ status: "success", message: "Password updated" }).status(200);
+    } catch (error) {
+      next(error);
+    }
+  },
+};
 export default userController;

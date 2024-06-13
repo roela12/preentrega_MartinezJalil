@@ -1,5 +1,4 @@
 const socket = io();
-console.log("Conectado");
 
 // Pregunto por el email
 window.onload = () => {
@@ -22,7 +21,6 @@ const log = document.getElementById("log");
 // Envio el mensaje al servidor
 chatbox.addEventListener("keyup", (e) => {
   if (e.key === "Enter") {
-    console.log(chatbox.value);
     socket.emit("message", { email: email, message: chatbox.value });
   }
 });

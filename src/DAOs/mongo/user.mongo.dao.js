@@ -10,9 +10,28 @@ export default class userMongoDao {
     }
   };
   // Mostrar usuario por id
-  getById = async () => {
+  getById = async (id) => {
     try {
       return await userModel.findById(id);
+    } catch (error) {
+      return null;
+    }
+  };
+  // Mostrar usuario por email
+  getByEmail = async (email) => {
+    try {
+      return await userModel.findOne({ email: email });
+    } catch (error) {
+      return null;
+    }
+  };
+  // Actualizamos la contrasena
+  updatePassword = async (uid, newPassword) => {
+    try {
+      return await userModel.updateOne(
+        { _id: uid },
+        { $set: { password: newPassword } }
+      );
     } catch (error) {
       return null;
     }

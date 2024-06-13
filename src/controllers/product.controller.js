@@ -1,15 +1,13 @@
-import ProductService from "../services/product.service.js";
+import { productService } from "../repositories/services.js";
 import CustomError from "../errors/customError.js";
 import errorTypes from "../errors/errorTypes.js";
-
-const products = new ProductService();
 
 const productController = {
   // Agregar un producto
   addProduct: async (req, res, next) => {
     try {
       const product = req.body;
-      const result = await products.addProduct(product);
+      const result = await productService.addProduct(product);
       if (!result) {
         CustomError.createError(
           "Produt not added",
@@ -25,7 +23,7 @@ const productController = {
   // Mostrar todos los productos
   getAll: async (req, res, next) => {
     try {
-      const result = await products.getAll(req, res);
+      const result = await productService.getAll(req, res);
       if (!result) {
         CustomError.createError(
           "Produts not found",
@@ -42,7 +40,7 @@ const productController = {
   getById: async (req, res, next) => {
     try {
       const id = req.params.pid;
-      const product = await products.getById(id);
+      const product = await productService.getById(id);
       if (!product) {
         CustomError.createError(
           "Produt not found",
@@ -59,7 +57,7 @@ const productController = {
   deleteProduct: async (req, res, next) => {
     try {
       const id = req.params.pid;
-      const result = await products.deleteProduct(id);
+      const result = await productService.deleteProduct(id);
       if (!result) {
         CustomError.createError(
           "Produt not deleted",
@@ -77,7 +75,7 @@ const productController = {
     try {
       const id = req.params.pid;
       let product = req.body;
-      const result = await products.updateProduct(id, product);
+      const result = await productService.updateProduct(id, product);
       if (!result) {
         CustomError.createError(
           "Produt not updated",

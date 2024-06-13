@@ -17,14 +17,12 @@ const initializePassport = () => {
       { passReqToCallback: true, usernameField: "email" },
       async (req, username, password, done) => {
         const { first_name, last_name, email, age } = req.body;
-
         try {
           const user = await userModel.findOne({ email: username });
           if (user) {
             logger.warn("el usuario ya existe");
             return done(null, false);
           }
-
           const cart = await cartService.createCart();
           const newUser = {
             first_name,
@@ -34,7 +32,6 @@ const initializePassport = () => {
             password: createHash(password),
             cart: cart._id,
           };
-
           // Guardar el usuario
           const result = await userModel.create(newUser);
           return done(null, result); // Exito

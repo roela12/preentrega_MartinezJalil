@@ -2,6 +2,8 @@ import { fileURLToPath } from "url";
 import { dirname } from "path";
 import bcrypt from "bcrypt";
 import { faker } from "@faker-js/faker";
+import jwt from "jsonwebtoken";
+import { entorno } from "./config/dotenv.config.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -36,5 +38,18 @@ export function generateProduct() {
     thumbnails: [],
   };
 }
+
+export const generateToken = (userId) => {
+  return jwt.sign({ userId }, entorno.secretJwt, { expiresIn: "1h" });
+};
+
+export const validateToken = (token) => {
+  try {
+    const decoded = jwt.verify(token, entorno.secretJwt);
+    return decoded;
+  } catch (error) {
+    return null;
+  }
+};
 
 export default __dirname;

@@ -1,14 +1,12 @@
-import CartService from "../services/cart.service.js";
+import { cartService } from "../repositories/services.js";
 import CustomError from "../errors/customError.js";
 import errorTypes from "../errors/errorTypes.js";
-
-const carts = new CartService();
 
 const cartController = {
   // Crear un nuevo carrito de compras
   createCart: async (req, res, next) => {
     try {
-      const cart = await carts.createCart();
+      const cart = await cartService.createCart();
       if (!cart) {
         CustomError.createError(
           "Cart not created",
@@ -25,7 +23,7 @@ const cartController = {
   getCartById: async (req, res, next) => {
     try {
       const id = req.params.cid;
-      const cart = await carts.getCartById(id);
+      const cart = await cartService.getCartById(id);
       if (!cart) {
         CustomError.createError(
           "Cart not found",
@@ -43,7 +41,7 @@ const cartController = {
     try {
       const cartId = req.params.cid;
       const productId = req.params.pid;
-      const result = await carts.addProduct(cartId, productId);
+      const result = await cartService.addProduct(cartId, productId);
       if (!result) {
         CustomError.createError(
           "Product not added",
@@ -61,7 +59,7 @@ const cartController = {
     try {
       const cartId = req.params.cid;
       const productId = req.params.pid;
-      const result = await carts.deleteProduct(cartId, productId);
+      const result = await cartService.deleteProduct(cartId, productId);
       if (!result) {
         CustomError.createError(
           "Product not deleted",
@@ -78,7 +76,7 @@ const cartController = {
   deleteAllProductsFromCart: async (req, res, next) => {
     try {
       const cartId = req.params.cid;
-      const result = await carts.deleteAllProductsFromCart(cartId);
+      const result = await cartService.deleteAllProductsFromCart(cartId);
       if (!result) {
         CustomError.createError(
           "Products not deleted",
@@ -96,7 +94,7 @@ const cartController = {
     try {
       const cartId = req.params.cid;
       const productsArray = req.body;
-      const result = await carts.updateCart(cartId, productsArray);
+      const result = await cartService.updateCart(cartId, productsArray);
       if (!result) {
         CustomError.createError(
           "Cart not updated",
@@ -115,7 +113,11 @@ const cartController = {
       const cartId = req.params.cid;
       const productId = req.params.pid;
       const quantity = req.body.quantity;
-      const result = await carts.updateQuantity(cartId, productId, quantity);
+      const result = await cartService.updateQuantity(
+        cartId,
+        productId,
+        quantity
+      );
       if (!result) {
         CustomError.createError(
           "Cart not updated",
@@ -138,7 +140,7 @@ const cartController = {
       } else {
         userEmail = "no email registered";
       }
-      res.send(await carts.purchaseCart(cartId, userEmail)).status(200);
+      res.send(await cartService.purchaseCart(cartId, userEmail)).status(200);
     } catch (error) {
       next(error);
     }

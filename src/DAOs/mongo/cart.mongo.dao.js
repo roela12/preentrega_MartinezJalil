@@ -19,8 +19,7 @@ export default class CartMongoDao {
   // Creo un nuevo carrito
   createCart = async () => {
     try {
-      await cartsModel.create({});
-      return "Carrito creado";
+      return await cartsModel.create({});
     } catch (error) {
       return null;
     }

@@ -1,5 +1,4 @@
 const socket = io();
-console.log("Conectado");
 
 // Escuchar mensajes del servidor
 socket.on("products", (products) => {

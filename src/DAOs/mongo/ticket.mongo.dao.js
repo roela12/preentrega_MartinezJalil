@@ -10,7 +10,7 @@ export default class ticketMongoDao {
     }
   };
   // Mostrar ticket por id
-  getById = async () => {
+  getById = async (id) => {
     try {
       return await ticketModel.findById(id);
     } catch (error) {

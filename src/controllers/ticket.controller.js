@@ -1,14 +1,12 @@
+import { ticketService } from "../repositories/services.js";
 import CustomError from "../errors/customError.js";
 import errorTypes from "../errors/errorTypes.js";
-import ticketService from "../services/ticket.service.js";
-
-const ticket = new ticketService();
 
 const ticketController = {
   // Mostrar tickets
   getTickets: async (req, res, next) => {
     try {
-      const result = await ticket.getTickets();
+      const result = await ticketService.getTickets();
       if (!result) {
         CustomError.createError(
           "Tickets not found",
@@ -25,7 +23,7 @@ const ticketController = {
   getTicketById: async (req, res, next) => {
     try {
       const id = req.params.id;
-      const result = await ticket.getById(id);
+      const result = await ticketService.getById(id);
       if (!result) {
         CustomError.createError(
           "Ticket not found",

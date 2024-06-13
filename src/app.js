@@ -4,20 +4,25 @@ import handlebars from "express-handlebars";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
+
 import __dirname from "./utils.js";
+import connectDB from "./config/db.config.js";
 import { entorno } from "./config/dotenv.config.js";
 import initilizePassport from "./config/passport.config.js";
+import errorHandler from "./middlewares/errorHandler.js";
+import { addLogger, logger } from "./utils/logger.js";
+
 import ProductRouter from "./routes/product.routes.js";
 import CartRouter from "./routes/cart.routes.js";
 import ViewProductRouter from "./routes/viewProducts.routes.js";
 import ViewProductRealTimeRouter from "./routes/viewProductsRealTime.routes.js";
 import ViewChatRouter from "./routes/viewChat.routes.js";
 import ViewCartRouter from "./routes/viewCart.routes.js";
-import UserRouter from "./routes/user.routes.js";
+import SessionRouter from "./routes/session.routes.js";
 import ViewSessionRouter from "./routes/viewSession.routes.js";
-import errorHandler from "./middlewares/errorHandler.js";
-import { addLogger, logger } from "./utils/logger.js";
 import LoggerTestRouter from "./routes/loggerTest.routes.js";
+import UserRouter from "./routes/user.routes.js";
+import ViewRecoverPasswordRouter from "./routes/viewRecoverPassword.routes.js";
 
 const app = express();
 const PORT = entorno.port;
@@ -26,6 +31,9 @@ const PORT = entorno.port;
 app.engine("handlebars", handlebars.engine());
 app.set("view engine", "handlebars");
 app.set("views", __dirname + "/views");
+
+// Conecto la base de datos
+connectDB();
 
 // Middlewares
 app.use(express.json());
@@ -58,8 +66,10 @@ app.use("/realtimeproducts", ViewProductRealTimeRouter);
 app.use("/chat", ViewChatRouter);
 app.use("/cart", ViewCartRouter);
 app.use("/", ViewSessionRouter);
-app.use("/api/sessions", UserRouter);
+app.use("/api/sessions", SessionRouter);
 app.use("/loggerTest", LoggerTestRouter);
+app.use("/api/users", UserRouter);
+app.use("/", ViewRecoverPasswordRouter);
 // Errors
 app.use(errorHandler);
 
