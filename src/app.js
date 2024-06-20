@@ -4,6 +4,8 @@ import handlebars from "express-handlebars";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
 
 import __dirname from "./utils.js";
 import connectDB from "./config/db.config.js";
@@ -26,6 +28,27 @@ import ViewRecoverPasswordRouter from "./routes/viewRecoverPassword.routes.js";
 
 const app = express();
 const PORT = entorno.port;
+
+// config docum
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.1",
+    info: {
+      title: "API proyecto coderhouse",
+      description:
+        "API pensada para realizar las preentregas de coderhouse la cual cuenta con endpoints destinados a un ecommerce ficticio",
+    },
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`],
+};
+const specs = swaggerJSDoc(swaggerOptions);
+app.use(
+  "/apidocs",
+  swaggerUiExpress.serve,
+  swaggerUiExpress.setup(specs, {
+    customCss: ".swagger-ui .topbar {display: none}",
+  })
+);
 
 // Settings
 app.engine("handlebars", handlebars.engine());

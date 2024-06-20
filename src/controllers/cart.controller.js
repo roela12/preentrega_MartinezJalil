@@ -31,7 +31,7 @@ const cartController = {
           errorTypes.NOT_FOUND
         );
       }
-      res.send(cart);
+      res.send(cart).status(200);
     } catch (error) {
       next(error);
     }
