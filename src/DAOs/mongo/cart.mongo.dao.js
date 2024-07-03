@@ -88,7 +88,7 @@ export default class CartMongoDao {
       }
       cart.products = [];
       await cart.save();
-      return "Productos eliminados";
+      return cart;
     } catch (error) {
       return null;
     }
@@ -103,7 +103,7 @@ export default class CartMongoDao {
       }
       cart.products = data;
       await cart.save();
-      return "carrito actualizado";
+      return cart;
     } catch (error) {
       return null;
     }
