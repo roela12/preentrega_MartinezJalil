@@ -49,10 +49,9 @@ export default class CartMongoDao {
         product.quantity += quantity;
       } else {
         cart.products.push({ product: pid, quantity });
-        return null;
       }
       await cart.save();
-      return "producto agregado";
+      return cart;
     } catch (error) {
       return null;
     }

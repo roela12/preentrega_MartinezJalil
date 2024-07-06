@@ -39,8 +39,8 @@ export function generateProduct() {
   };
 }
 
-export const generateToken = (userId) => {
-  return jwt.sign({ userId }, entorno.secretJwt, { expiresIn: "1h" });
+export const generateToken = (item) => {
+  return jwt.sign({ item }, entorno.secretJwt, { expiresIn: "1h" });
 };
 
 export const validateToken = (token) => {

@@ -1,6 +1,7 @@
 import userDTO from "../DTOs/user.dto.js";
 import CustomError from "../errors/customError.js";
 import errorTypes from "../errors/errorTypes.js";
+import { generateToken } from "../utils.js";
 
 const sessionController = {
   // Registro
@@ -28,7 +29,11 @@ const sessionController = {
         role: req.user.role,
         cart: req.user.cart,
       };
-      res.status(200).send({ status: "success", payload: req.user });
+      const token = generateToken(req.session.user);
+      res
+        .header("authorization", token)
+        .status(200)
+        .send({ status: "success", payload: req.session.user });
     } catch (error) {
       next(error);
     }

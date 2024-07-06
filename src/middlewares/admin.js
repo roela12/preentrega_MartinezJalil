@@ -1,3 +1,5 @@
+import { generateToken } from "../utils.js";
+
 export function admin(req, res, next) {
   const { email, password } = req.body;
   if (email == "adminCoder@coder.com" && password === "adminCod3er123") {
@@ -8,7 +10,11 @@ export function admin(req, res, next) {
       age: "edad de admin",
       role: "admin",
     };
-    res.status(200).send({ status: "success", payload: req.session.user });
+    const token = generateToken(req.session.user);
+    res
+      .header("authorization", token)
+      .status(200)
+      .send({ status: "success", payload: req.session.user });
   } else {
     next();
   }
