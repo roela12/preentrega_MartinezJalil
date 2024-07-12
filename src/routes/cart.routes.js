@@ -1,6 +1,7 @@
 import { Router } from "express";
 import cartController from "../controllers/cart.controller.js";
 import { isUser } from "../middlewares/isUser.js";
+import { isPremium } from "../middlewares/isPremium.js";
 
 const router = Router();
 
@@ -28,6 +29,6 @@ router.put("/:cid", cartController.updateCart);
 router.put("/:cid/product/:pid", cartController.updateQuantity);
 
 // Realizo la compra del carrito
-router.post("/:cid/purchase", cartController.purchaseCart);
+router.post("/:cid/purchase", isPremium, cartController.purchaseCart);
 
 export default router;

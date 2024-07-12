@@ -113,5 +113,43 @@ const userController = {
       next(error);
     }
   },
+  changeToPremium: async (req, res, next) => {
+    try {
+      const userId = req.params.uid;
+      const user = await userService.changeToPremium(userId);
+      if (user) {
+        res
+          .send({ status: "success", message: "User changed to premium" })
+          .status(200);
+      } else {
+        CustomError.createError(
+          "role not changed",
+          "some documents are not uploaded",
+          errorTypes.UNAUTHORIZED
+        );
+      }
+    } catch (error) {
+      next(error);
+    }
+  },
+  uploadDocument: async (req, res, next) => {
+    try {
+      const userId = req.params.uid;
+      const files = req.files;
+      const result = await userService.uploadDocument(userId, files);
+      if (result) {
+        res.send({ status: "success" }).status(200);
+      } else {
+        CustomError.createError(
+          "User not found",
+          "invalid user id",
+          errorTypes.NOT_FOUND
+        );
+      }
+      res.send({ status: "success" }).status(200);
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 export default userController;

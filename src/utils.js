@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import { faker } from "@faker-js/faker";
 import jwt from "jsonwebtoken";
 import { entorno } from "./config/dotenv.config.js";
+import multer from "multer";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -51,5 +52,18 @@ export const validateToken = (token) => {
     return null;
   }
 };
+
+export function useMulter(fileDirectory) {
+  const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, __dirname + `/public/${fileDirectory}`);
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname);
+    },
+  });
+
+  return multer({ storage: storage });
+}
 
 export default __dirname;

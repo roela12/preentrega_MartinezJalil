@@ -2,6 +2,7 @@ import userDTO from "../DTOs/user.dto.js";
 import CustomError from "../errors/customError.js";
 import errorTypes from "../errors/errorTypes.js";
 import { generateToken } from "../utils.js";
+import userModel from "../DAOs/mongo/models/user.model.js";
 
 const sessionController = {
   // Registro
@@ -29,6 +30,9 @@ const sessionController = {
         role: req.user.role,
         cart: req.user.cart,
       };
+      const user = await userModel.findOne({ email: req.user.email });
+      user.last_connection = new Date();
+      await user.save();
       const token = generateToken(req.session.user);
       res
         .header("authorization", token)
@@ -60,6 +64,9 @@ const sessionController = {
   // Cierre de sesion
   logout: async (req, res) => {
     try {
+      const user = await userModel.findOne({ email: req.user.email });
+      user.last_connection = new Date();
+      await user.save();
       req.session.destroy();
       res.status(200).send({ status: "success" });
     } catch (error) {

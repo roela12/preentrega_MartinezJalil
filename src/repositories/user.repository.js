@@ -16,4 +16,10 @@ export default class UserRepository {
   updatePassword(uid, newPassword) {
     return this.dao.updatePassword(uid, newPassword);
   }
+  changeToPremium(uid) {
+    return this.dao.changeToPremium(uid);
+  }
+  uploadDocument(uid, document) {
+    return this.dao.uploadDocument(uid, document);
+  }
 }

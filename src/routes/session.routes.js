@@ -2,12 +2,14 @@ import { Router } from "express";
 import passport from "passport";
 import sessionController from "../controllers/session.controller.js";
 import { admin } from "../middlewares/admin.js";
+import { useMulter } from "../utils.js";
 
 const router = Router();
 
 // Logica de registro
 router.post(
   "/register",
+  useMulter("profiles").single("profile"),
   passport.authenticate("register", { failureRedirect: "/failregister" }),
   sessionController.register
 );

@@ -17,6 +17,7 @@ const initializePassport = () => {
       { passReqToCallback: true, usernameField: "email" },
       async (req, username, password, done) => {
         const { first_name, last_name, email, age } = req.body;
+        const profile = req.file;
         try {
           const user = await userModel.findOne({ email: username });
           if (user) {
@@ -31,7 +32,14 @@ const initializePassport = () => {
             age,
             password: createHash(password),
             cart: cart._id,
+            documents: [],
           };
+          if (profile) {
+            newUser.documents.push({
+              name: profile.fieldname,
+              reference: profile.path,
+            });
+          }
           // Guardar el usuario
           const result = await userModel.create(newUser);
           return done(null, result); // Exito
@@ -53,7 +61,6 @@ const initializePassport = () => {
           if (!user) return done(null, false);
           const valid = isValidPassword(user, password);
           if (!valid) return done(null, false);
-
           return done(null, user);
         } catch (error) {
           return done(error);
@@ -87,6 +94,7 @@ const initializePassport = () => {
               email: profile._json.email,
               password: "",
               cart: cart._id,
+              documents: [],
             };
             // Guardamos el usuario en la db
             let createdUser = await userModel.create(newUser);
