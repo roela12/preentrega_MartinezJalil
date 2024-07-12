@@ -64,9 +64,9 @@ const sessionController = {
   // Cierre de sesion
   logout: async (req, res) => {
     try {
-      const user = await userModel.findOne({ email: req.user.email });
-      user.last_connection = new Date();
-      await user.save();
+      // const user = await userModel.findOne({ email: req.user.email });
+      // user.last_connection = new Date();
+      // await user.save();
       req.session.destroy();
       res.status(200).send({ status: "success" });
     } catch (error) {
