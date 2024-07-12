@@ -7,10 +7,12 @@ const productController = {
   addProduct: async (req, res, next) => {
     try {
       const product = req.body;
-      // const images = req.files;
-      // images.forEach((file) => {
-      //   product.thumbnails.push(file.path);
-      // });
+      const images = req.files;
+      if (images) {
+        images.forEach((file) => {
+          product.thumbnails.push(file.path);
+        });
+      }
       const result = await productService.addProduct(product);
       if (!result) {
         CustomError.createError(
@@ -79,10 +81,12 @@ const productController = {
     try {
       const id = req.params.pid;
       let product = req.body;
-      // const images = req.files;
-      // images.forEach((file) => {
-      //   product.thumbnails.push(file.path);
-      // });
+      const images = req.files;
+      if (images) {
+        images.forEach((file) => {
+          product.thumbnails.push(file.path);
+        });
+      }
       const result = await productService.updateProduct(id, product);
       if (!result) {
         CustomError.createError(

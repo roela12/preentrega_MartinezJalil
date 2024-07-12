@@ -62,11 +62,13 @@ const sessionController = {
     res.redirect("/");
   },
   // Cierre de sesion
-  logout: async (req, res) => {
+  logout: async (req, res, next) => {
     try {
-      // const user = await userModel.findOne({ email: req.user.email });
-      // user.last_connection = new Date();
-      // await user.save();
+      if (req.user) {
+        const user = await userModel.findOne({ email: req.user.email });
+        user.last_connection = new Date();
+        await user.save();
+      }
       req.session.destroy();
       res.status(200).send({ status: "success" });
     } catch (error) {
