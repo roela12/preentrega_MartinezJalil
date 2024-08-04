@@ -1,4 +1,6 @@
 import userModel from "./models/user.model.js";
+import cartsModel from "./models/cart.model.js";
+import MailingService from "../../services/mailing.js";
 
 export default class userMongoDao {
   // Mostrar usuarios
@@ -90,6 +92,55 @@ export default class userMongoDao {
       }
       await user.save();
       return user.documents;
+    } catch (error) {
+      return null;
+    }
+  };
+  modifyRole = async (uid, newRole) => {
+    try {
+      const user = await userModel.findById(uid);
+      if (!user) {
+        return null;
+      }
+      user.role = newRole;
+      await user.save();
+      return user;
+    } catch (error) {
+      return null;
+    }
+  };
+  deleteUser = async (uid) => {
+    try {
+      const user = await userModel.findByIdAndDelete(uid);
+      await cartsModel.findByIdAndDelete(user.cart);
+      return user;
+    } catch (error) {
+      return null;
+    }
+  };
+  deleteInactiveUsers = async () => {
+    try {
+      const twoDays = 2 * 24 * 60 * 60 * 1000;
+      const inactiveDate = new Date(Date.now() - twoDays);
+      const inactiveUsers = await userModel.find({
+        last_connection: { $lt: inactiveDate },
+      });
+      inactiveUsers.forEach(async (user) => {
+        const mailingService = new MailingService();
+        const mail = await mailingService.sendSimpleMail({
+          from: "Preentrega Martinez",
+          to: user.email,
+          subject: "Eliminacion de cuenta por inactividad",
+          html: `
+            <div>
+              <h1>Su cuenta en preentrega Martinez ha sido eliminada por inactividad</h1>
+              <br>
+              <p>Usted no ha iniciado sesion en nuestro sistema durante un periodo de dos dias y su cuenta ha sido eliminada por inactividad.</p>
+            </div>`,
+        });
+        await this.deleteUser(user._id);
+      });
+      return inactiveUsers;
     } catch (error) {
       return null;
     }

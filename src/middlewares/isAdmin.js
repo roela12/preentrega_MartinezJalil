@@ -4,8 +4,8 @@ import { validateToken } from "../utils.js";
 
 export function isAdmin(req, res, next) {
   try {
-    if (req.user) {
-      if (req.user.role == "admin") {
+    if (req.user || req.session.user) {
+      if (req.session.user.role == "admin" || req.user.role == "admin") {
         next();
       } else {
         CustomError.createError(

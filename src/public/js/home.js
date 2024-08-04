@@ -1,11 +1,12 @@
 const logoutForm = document.getElementById("logout");
 const addToCartForm = document.querySelectorAll(".addToCart");
-const cid = document.querySelector(".cartId").id;
+const editUsersForm = document.getElementById("users");
 
 for (let i = 0; i < addToCartForm.length; i++) {
   addToCartForm[i].addEventListener("submit", (e) => {
     e.preventDefault();
     const pid = addToCartForm[i].id;
+    const cid = document.querySelector(".cartId").id;
     fetch(`/api/cart/${cid}/product/${pid}`, {
       method: "POST",
     }).then((response) => {
@@ -36,3 +37,10 @@ logoutForm.addEventListener("submit", (e) => {
     }
   });
 });
+
+if (editUsersForm) {
+  editUsersForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    window.location.replace("/editUsers");
+  });
+}

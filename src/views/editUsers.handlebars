@@ -1,0 +1,34 @@
+<h1>Usuarios</h1>
+<div>
+  {{#each result.docs}}
+    <hr />
+    <h3>id: {{this._id}}</h3>
+    <p>Nombre: {{this.first_name}}</p>
+    <p>Apellido: {{this.last_name}}</p>
+    <p>Email: {{this.mail}}</p>
+    <p>Edad: {{this.age}}</p>
+    <p>Rol: {{this.role}}</p>
+    <p>id del carrito: {{this.cart}}</p>
+    <form class="modifyRole" data-id="{{this._id}}">
+      <input type="radio" id="user" name="roles" value="user" />
+      <label for="user">user</label><br />
+      <input type="radio" id="premium" name="roles" value="premium" />
+      <label for="premium">premium</label><br />
+      <input type="radio" id="admin" name="roles" value="admin" />
+      <label for="admin">admin</label><br />
+      <button class="btn btn-outline-secondary" type="submit">Modificar rol</button>
+    </form>
+    <form class="deleteUser" data-id="{{this._id}}">
+      <button class="btn btn-outline-secondary" type="submit">Eliminar usuario</button>
+    </form>
+  {{/each}}
+  <br /><br />
+  {{#if result.hasPrevPage}}
+    <a href={{result.prevLink}}>Anterior</a>
+  {{/if}}
+  {{#if result.hasNextPage}}
+    <a href={{result.nextLink}}>Siguiente</a>
+  {{/if}}
+</div>
+<script src="/js/editUsers.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

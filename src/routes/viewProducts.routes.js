@@ -12,10 +12,15 @@ router.get("/", auth, async (req, res) => {
   try {
     const user = new userDTO(req.session.user);
     const result = await products.getAll(req, res);
+    let admin = false;
+    if (req.session.user.role == "admin") {
+      admin = true;
+    }
     res.render("home", {
       title: "Tienda de productos",
       result,
       user,
+      admin,
     });
   } catch (error) {
     res.send(error);

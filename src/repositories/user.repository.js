@@ -22,4 +22,13 @@ export default class UserRepository {
   uploadDocument(uid, document) {
     return this.dao.uploadDocument(uid, document);
   }
+  modifyRole(uid, newRole) {
+    return this.dao.modifyRole(uid, newRole);
+  }
+  deleteUser(uid) {
+    return this.dao.deleteUser(uid);
+  }
+  deleteInactiveUsers() {
+    return this.dao.deleteInactiveUsers();
+  }
 }

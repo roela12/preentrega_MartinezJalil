@@ -25,6 +25,7 @@ import ViewSessionRouter from "./routes/viewSession.routes.js";
 import LoggerTestRouter from "./routes/loggerTest.routes.js";
 import UserRouter from "./routes/user.routes.js";
 import ViewRecoverPasswordRouter from "./routes/viewRecoverPassword.routes.js";
+import ViewEditUsersRouter from "./routes/viewEditUsers.routes.js";
 
 const app = express();
 const PORT = entorno.port;
@@ -93,6 +94,7 @@ app.use("/api/sessions", SessionRouter);
 app.use("/loggerTest", LoggerTestRouter);
 app.use("/api/users", UserRouter);
 app.use("/", ViewRecoverPasswordRouter);
+app.use("/editUsers", ViewEditUsersRouter);
 // Errors
 app.use(errorHandler);
 

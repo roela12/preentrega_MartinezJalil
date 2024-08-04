@@ -3,20 +3,25 @@ import { generateToken, validateToken, createHash } from "../utils.js";
 import MailingService from "../services/mailing.js";
 import CustomError from "../errors/customError.js";
 import errorTypes from "../errors/errorTypes.js";
+import userDTO from "../DTOs/user.dto.js";
 
 const userController = {
   // Mostrar usuarios
   getUsers: async (req, res, next) => {
     try {
-      const result = await userService.getUsers();
-      if (!result) {
+      const users = await userService.getUsers();
+      let usersWithDto = [];
+      users.forEach((user) => {
+        usersWithDto.push(new userDTO(user));
+      });
+      if (!users) {
         CustomError.createError(
           "Users not found",
           "something went wrong",
           errorTypes.NOT_FOUND
         );
       }
-      res.send(result).status(200);
+      res.send(usersWithDto).status(200);
     } catch (error) {
       next(error);
     }
@@ -147,6 +152,57 @@ const userController = {
         );
       }
       res.send({ status: "success" }).status(200);
+    } catch (error) {
+      next(error);
+    }
+  },
+  modifyRole: async (req, res, next) => {
+    try {
+      const uid = req.params.uid;
+      const newRole = req.params.role;
+      const result = await userService.modifyRole(uid, newRole);
+      if (result) {
+        res.send({ status: "success" }).status(200);
+      } else {
+        CustomError.createError(
+          "User not found",
+          "invalid user id",
+          errorTypes.NOT_FOUND
+        );
+      }
+    } catch (error) {
+      next(error);
+    }
+  },
+  deleteUser: async (req, res, next) => {
+    try {
+      const uid = req.params.uid;
+      const result = await userService.deleteUser(uid);
+      if (result) {
+        res.send({ status: "success" }).status(200);
+      } else {
+        CustomError.createError(
+          "User not found",
+          "invalid user id",
+          errorTypes.NOT_FOUND
+        );
+      }
+    } catch (error) {
+      next(error);
+    }
+  },
+  deleteInactiveUsers: async (req, res, next) => {
+    try {
+      const result = await userService.deleteInactiveUsers();
+      if (result) {
+        res.send({ status: "success" }).status(200);
+      } else {
+        CustomError.createError(
+          "User not found",
+          "invalid user parameters",
+          errorTypes.NOT_FOUND
+        );
+      }
     } catch (error) {
       next(error);
     }

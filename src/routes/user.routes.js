@@ -6,10 +6,10 @@ const router = Router();
 
 // Rutas
 
-// Recuperar contrasena
-router.post("/recover-password", userController.recoverPassword);
-router.get("/rescue-password/:token", userController.recoverPasswordToken);
-router.post("/rescue-password", userController.updatePassword);
+router.get("/", userController.getUsers);
+router.delete("/:uid", userController.deleteUser);
+router.put("/modifyRole/:uid/role/:role", userController.modifyRole);
+router.delete("/", userController.deleteInactiveUsers);
 router.put("/premium/:uid", userController.changeToPremium);
 router.post(
   "/:uid/documents",
@@ -20,5 +20,10 @@ router.post(
   ]),
   userController.uploadDocument
 );
+
+// Recuperar contrasena
+router.post("/recover-password", userController.recoverPassword);
+router.get("/rescue-password/:token", userController.recoverPasswordToken);
+router.post("/rescue-password", userController.updatePassword);
 
 export default router;

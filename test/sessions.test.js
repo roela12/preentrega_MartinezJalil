@@ -25,10 +25,28 @@ describe("Test de api sessions, preentrega coder:", () => {
     await mongoose.connection.close();
   });
 
+  describe("POST /api/sessions/register", () => {
+    it("El test debera registrar un usuario correctamente", async function () {
+      const userMock = {
+        first_name: "test",
+        last_name: "test",
+        email: "test@test.com",
+        age: 21,
+        password: "12345",
+      };
+      const { statusCode, ok, _body } = await requester
+        .post("/register")
+        .send(userMock);
+      expect(statusCode).to.equal(201);
+      expect(ok).to.equal(true);
+      expect(_body.status).to.equal("success");
+    });
+  });
+
   describe("POST /api/sessions/login", () => {
     it("El test debera iniciar sesion correctamente", async function () {
       const userMock = {
-        email: "rodri@mail.com",
+        email: "test@test.com",
         password: "12345",
       };
       const { statusCode, ok, _body } = await requester
@@ -44,7 +62,7 @@ describe("Test de api sessions, preentrega coder:", () => {
       expect(_body.payload).to.have.property("role");
       expect(_body.payload).to.be.an("object");
       const result = await requester.post("/login").send({
-        email: "rodri@mail.com",
+        email: "test@test.com",
         password: "12345",
       });
       const decoded = validateToken(result.headers.authorization);
@@ -62,24 +80,6 @@ describe("Test de api sessions, preentrega coder:", () => {
     it("El test debera cerrar la sesion correctamente", async function () {
       const { statusCode, ok, _body } = await requester.delete("/logout");
       expect(statusCode).to.equal(200);
-      expect(ok).to.equal(true);
-      expect(_body.status).to.equal("success");
-    });
-  });
-
-  describe("POST /api/sessions/register", () => {
-    it("El test debera registrar un usuario correctamente", async function () {
-      const userMock = {
-        first_name: "test",
-        last_name: "test",
-        email: "test@test.com",
-        age: 21,
-        password: "12345",
-      };
-      const { statusCode, ok, _body } = await requester
-        .post("/register")
-        .send(userMock);
-      expect(statusCode).to.equal(201);
       expect(ok).to.equal(true);
       expect(_body.status).to.equal("success");
     });

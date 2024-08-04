@@ -10,6 +10,11 @@
   {{else}}
     <p>Carrito: No hay nada en el carrito</p>
   {{/if}}
+  {{#if admin}}
+    <form id="users">
+      <button class="btn btn-outline-secondary" type="submit">Edit users</button>
+    </form>
+  {{/if}}
   <form id="logout">
     <button class="btn btn-outline-secondary" type="submit">Logout</button>
   </form>
