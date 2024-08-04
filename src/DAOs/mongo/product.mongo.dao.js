@@ -1,5 +1,9 @@
 import productsModel from "./models/product.model.js";
+import cartsModel from "./models/cart.model.js";
+import userModel from "./models/user.model.js";
+
 import { entorno } from "../../config/dotenv.config.js";
+import MailingService from "../../services/mailing.js";
 
 export default class ProductMongoDao {
   constructor() {}
@@ -76,6 +80,33 @@ export default class ProductMongoDao {
   // Borro un producto
   deleteProduct = async (id) => {
     try {
+      const carts = await cartsModel.find({});
+      carts.forEach((cart) => {
+        cart.products.forEach(async (product) => {
+          if (product.product == id) {
+            cart.products.splice(product, 1);
+            await cart.save();
+            const user = await userModel.findOne({ cart: cart._id });
+            if (user.role == "premium") {
+              const completeProduct = await productsModel.findById(
+                product.product
+              );
+              const mailingService = new MailingService();
+              const mail = await mailingService.sendSimpleMail({
+                from: "Preentrega Martinez",
+                to: user.email,
+                subject: "Eliminacion de producto de tu carrito",
+                html: `
+            <div>
+              <h1>Un producto de su carrito ha sido eliminado.</h1>
+              <br>
+              <p>Se le informa que el producto ${completeProduct.title} ha sido eliminado de nuestra tienda y por lo tanto se ha borrado de su carrito de compras.</p>
+            </div>`,
+              });
+            }
+          }
+        });
+      });
       await productsModel.deleteOne({ _id: id });
       return "Producto eliminado";
     } catch (error) {

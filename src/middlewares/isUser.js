@@ -5,7 +5,7 @@ import { validateToken } from "../utils.js";
 export function isUser(req, res, next) {
   try {
     if (req.user) {
-      if (req.user.role == "user") {
+      if (req.user.role == "user" || req.user.role == "premium") {
         next();
       } else {
         CustomError.createError(
@@ -17,7 +17,7 @@ export function isUser(req, res, next) {
     } else if (req.headers.authorization) {
       const token = req.headers.authorization;
       const decoded = validateToken(token);
-      if (decoded.item.role == "user") {
+      if (decoded.item.role == "user" || decoded.item.role == "premium") {
         next();
       } else {
         CustomError.createError(
