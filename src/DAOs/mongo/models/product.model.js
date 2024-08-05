@@ -41,6 +41,10 @@ const schema = new Schema({
     type: [String],
     require: true,
   },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 // Paginador

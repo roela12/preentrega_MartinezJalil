@@ -1,6 +1,7 @@
 import { Router } from "express";
 import productController from "../controllers/product.controller.js";
 import { isAdmin } from "../middlewares/isAdmin.js";
+import { isAdminOrPremium } from "../middlewares/isAdminOrPremium.js";
 import { useMulter } from "../utils.js";
 
 const router = Router();
@@ -10,7 +11,7 @@ const router = Router();
 // Agregar producto
 router.post(
   "/",
-  isAdmin,
+  isAdminOrPremium,
   useMulter("products").array("product", 10),
   productController.addProduct
 );

@@ -111,6 +111,27 @@ export default class ProductMongoDao {
           }
         });
       });
+      // Busco el producto
+      const product2 = await productsModel.findById(id);
+      // Busco el usuario dueno de ese producto
+      if (product2.owner) {
+        const user2 = await userModel.findById(product2.owner);
+        // Si es premium le mando un mail de aviso
+        if (user2.role == "premium") {
+          const mailingService2 = new MailingService();
+          const mail2 = await mailingService2.sendSimpleMail({
+            from: "Preentrega Martinez",
+            to: user2.email,
+            subject: "Eliminacion de tu producto de nuestro sistema",
+            html: `
+            <div>
+              <h1>Uno de tus productos ha sido eliminado.</h1>
+              <br>
+              <p>Se le informa que su producto (${product2.title}) ha sido eliminado de nuestra tienda.</p>
+            </div>`,
+          });
+        }
+      }
       // borro el producto
       await productsModel.deleteOne({ _id: id });
       return "Producto eliminado";
