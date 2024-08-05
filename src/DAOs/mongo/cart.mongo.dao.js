@@ -64,12 +64,11 @@ export default class CartMongoDao {
       const product = cart.products.findIndex(
         (product) => product.product.toString() === pid
       );
+
       if (!cart) {
         return null;
       }
-      if (!product) {
-        return null;
-      }
+
       cart.products.splice(product, 1);
       await cart.save();
       return "Producto eliminado";

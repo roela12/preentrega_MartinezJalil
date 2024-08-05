@@ -1,12 +1,13 @@
 const logoutForm = document.getElementById("logout");
 const addToCartForm = document.querySelectorAll(".addToCart");
 const editUsersForm = document.getElementById("users");
+const myCartForm = document.getElementById("myCart");
+const cid = document.querySelector(".cart").dataset.cid;
 
 for (let i = 0; i < addToCartForm.length; i++) {
   addToCartForm[i].addEventListener("submit", (e) => {
     e.preventDefault();
     const pid = addToCartForm[i].id;
-    const cid = document.querySelector(".cartId").id;
     fetch(`/api/cart/${cid}/product/${pid}`, {
       method: "POST",
     }).then((response) => {
@@ -44,3 +45,8 @@ if (editUsersForm) {
     window.location.replace("/editUsers");
   });
 }
+
+myCartForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  window.location.replace(`/cart/?cid=${cid}`);
+});

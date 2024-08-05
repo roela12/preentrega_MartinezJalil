@@ -1,15 +1,13 @@
 <h1>Tienda de productos</h1>
-<div>
+<div class="cart" data-cid="{{user.cart}}">
   <h2>Bienvenido!</h2>
   <p>Nombre: {{user.name}}</p>
   <p>Email: {{user.email}}</p>
   <p>Edad: {{user.age}}</p>
   <p>Rol: {{user.role}}</p>
-  {{#if user.cart}}
-    <p class="cartId" id="{{user.cart}}">Carrito: {{user.cart}}</p>
-  {{else}}
-    <p>Carrito: No hay nada en el carrito</p>
-  {{/if}}
+  <form id="myCart">
+    <button class="btn btn-outline-secondary" type="submit">Mi carrito</button>
+  </form>
   {{#if admin}}
     <form id="users">
       <button class="btn btn-outline-secondary" type="submit">Edit users</button>

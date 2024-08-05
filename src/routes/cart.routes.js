@@ -29,6 +29,6 @@ router.put("/:cid", cartController.updateCart);
 router.put("/:cid/product/:pid", cartController.updateQuantity);
 
 // Realizo la compra del carrito
-router.post("/:cid/purchase", isPremium, cartController.purchaseCart);
+router.post("/:cid/purchase", cartController.purchaseCart);
 
 export default router;

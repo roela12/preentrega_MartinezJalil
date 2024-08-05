@@ -1,16 +1,25 @@
-<h1>Mi carrito</h1>
-{{#each result2.products}}
-  <hr />
-  <h3>{{this.product.title}}</h3>
-  <p>{{this.product.description}}</p>
-  <p>Precio: {{this.product.price}}</p>
-  <p>{{this.product.thumbnails}}</p>
-  <p>Codigo: {{this.product.code}}</p>
-  <p>Stock: {{this.product.stock}}</p>
-  <p>Categoria: {{this.product.category}}</p>
-  <p>Id: {{this.product._id}}</p>
-  <p>Estado: {{this.product.status}}</p>
-  <p>Marca: {{this.product.brand}}</p>
-  <h3>cantidad: {{this.quantity}}</h3>
-  <button class="btn btn-outline-secondary" type="submit">Quitar del carrito</button>
-{{/each}}
+<div class="cart" data-cid="{{result2._id}}">
+  <h1>Mi carrito</h1>
+  {{#each result2.products}}
+    <h3>{{this.product.title}}</h3>
+    <p>{{this.product.description}}</p>
+    <p>Precio: {{this.product.price}}</p>
+    <p>{{this.product.thumbnails}}</p>
+    <p>Codigo: {{this.product.code}}</p>
+    <p>Stock: {{this.product.stock}}</p>
+    <p>Categoria: {{this.product.category}}</p>
+    <p>Id: {{this.product._id}}</p>
+    <p>Estado: {{this.product.status}}</p>
+    <p>Marca: {{this.product.brand}}</p>
+    <h3>cantidad: {{this.quantity}}</h3>
+    <form class="removeProduct" data-pid="{{this.product._id}}">
+      <button class="btn btn-outline-secondary" type="submit">Quitar del carrito</button>
+    </form>
+    <hr />
+  {{/each}}
+  <form class="purchaseCart">
+    <button class="btn btn-outline-secondary" type="submit">Comprar carrito</button>
+  </form>
+</div>
+<script src="/js/cart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
