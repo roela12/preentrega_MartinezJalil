@@ -6,11 +6,22 @@ const router = Router();
 
 // Rutas
 
+// Mostrar un usuario
 router.get("/", userController.getUsers);
+
+// Borrar un usuario
 router.delete("/:uid", userController.deleteUser);
+
+// Modificar el rol de un usuario
 router.put("/modifyRole/:uid/role/:role", userController.modifyRole);
+
+// Borrar usuarios inactivos por mas de dos dias
 router.delete("/", userController.deleteInactiveUsers);
+
+// Mejorar rol a premium
 router.put("/premium/:uid", userController.changeToPremium);
+
+// Subir documentos de usuario
 router.post(
   "/:uid/documents",
   useMulter("documents").fields([

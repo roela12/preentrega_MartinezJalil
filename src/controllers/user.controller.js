@@ -90,6 +90,7 @@ const userController = {
       next(error);
     }
   },
+  // Recibo el token del usuario
   recoverPasswordToken: async (req, res, next) => {
     try {
       const token = req.params.token;
@@ -108,6 +109,7 @@ const userController = {
       next(error);
     }
   },
+  // Actualizar contrasena
   updatePassword: async (req, res, next) => {
     try {
       const { password } = req.body;
@@ -118,6 +120,7 @@ const userController = {
       next(error);
     }
   },
+  // Mejorar rol a premium
   changeToPremium: async (req, res, next) => {
     try {
       const userId = req.params.uid;
@@ -137,6 +140,7 @@ const userController = {
       next(error);
     }
   },
+  // Subir documentos de usuario
   uploadDocument: async (req, res, next) => {
     try {
       const userId = req.params.uid;
@@ -156,6 +160,7 @@ const userController = {
       next(error);
     }
   },
+  // Modificar rol
   modifyRole: async (req, res, next) => {
     try {
       const uid = req.params.uid;
@@ -174,6 +179,7 @@ const userController = {
       next(error);
     }
   },
+  // Borrar usuario
   deleteUser: async (req, res, next) => {
     try {
       const uid = req.params.uid;
@@ -191,6 +197,7 @@ const userController = {
       next(error);
     }
   },
+  // Borrar usuarios inactivos por mas de dos dias
   deleteInactiveUsers: async (req, res, next) => {
     try {
       const result = await userService.deleteInactiveUsers();

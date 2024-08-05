@@ -105,27 +105,30 @@ const server = app.listen(PORT, () =>
 
 // WebSocket
 const io = new Server(server);
-import ProductMongoDao from "./DAOs/mongo/product.mongo.dao.js";
+import ProductsModel from "./DAOs/mongo/models/product.model.js";
 import MessageMongoDao from "./DAOs/mongo/message.mongo.dao.js";
-import { isUser } from "./middlewares/isUser.js";
-const products = new ProductMongoDao();
 const messages = new MessageMongoDao();
 const msg = [];
 // Socket events
 io.on("connection", (socket) => {
   logger.info("Usuario conectado");
 
+  // Agregar producto en tiempo real
   socket.on("addProductData", async (product) => {
-    await products.addProduct(product);
-    socket.emit("products", await products.getAll());
+    await ProductsModel.create(product);
+    const updatedProducts = await ProductsModel.find({});
+    socket.emit("products", updatedProducts);
   });
 
+  // Borrar producto en tiempo real
   socket.on("deleteProductData", async (id) => {
-    await products.deleteProduct(id);
-    socket.emit("products", await products.getAll());
+    await ProductsModel.findByIdAndDelete(id);
+    const updatedProducts = await ProductsModel.find({});
+    socket.emit("products", updatedProducts);
   });
 
-  socket.on("message", isUser, async (data) => {
+  // Agregar mensaje en tiempo real
+  socket.on("message", async (data) => {
     msg.push(data);
     await messages.addMessage(data);
     io.emit("messageLogs", msg);

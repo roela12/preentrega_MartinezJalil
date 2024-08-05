@@ -96,6 +96,7 @@ export default class userMongoDao {
       return null;
     }
   };
+  // Modifico el rol
   modifyRole = async (uid, newRole) => {
     try {
       const user = await userModel.findById(uid);
@@ -109,6 +110,7 @@ export default class userMongoDao {
       return null;
     }
   };
+  // Borro un usuario
   deleteUser = async (uid) => {
     try {
       const user = await userModel.findByIdAndDelete(uid);
@@ -118,6 +120,7 @@ export default class userMongoDao {
       return null;
     }
   };
+  // Borro usuarios inactivos por mas de dos dias
   deleteInactiveUsers = async () => {
     try {
       const twoDays = 2 * 24 * 60 * 60 * 1000;

@@ -11,7 +11,7 @@ describe("Test de api carts, preentrega coder", () => {
   describe("GET /api/cart/:cid", () => {
     it("El endpoint debera mostrar un carrito", async function () {
       const { statusCode, ok, _body } = await requester.get(
-        "/664c125ada0e1750a05f0dcd"
+        "/66b0ebfd8c039e4b21feef65"
       );
       expect(statusCode).to.equal(200);
       expect(ok).to.equal(true);
@@ -26,7 +26,7 @@ describe("Test de api carts, preentrega coder", () => {
   describe("DELETE /api/cart/:cid", () => {
     it("El endpoint debera borrar todos los productos de un carrito", async function () {
       const { statusCode, ok, _body } = await requester.delete(
-        "/664c125ada0e1750a05f0dcd"
+        "/66b0ebfd8c039e4b21feef65"
       );
       expect(statusCode).to.equal(200);
       expect(ok).to.equal(true);
@@ -52,7 +52,7 @@ describe("Test de api carts, preentrega coder", () => {
         },
       ];
       const { statusCode, ok, _body } = await requester
-        .put("/664c125ada0e1750a05f0dcd")
+        .put("/66b0ebfd8c039e4b21feef65")
         .send(newProducts);
       expect(statusCode).to.equal(200);
       expect(ok).to.equal(true);

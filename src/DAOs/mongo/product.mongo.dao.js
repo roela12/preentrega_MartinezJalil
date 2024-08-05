@@ -81,12 +81,16 @@ export default class ProductMongoDao {
   deleteProduct = async (id) => {
     try {
       const carts = await cartsModel.find({});
+      // reviso cada carrito para ver si alguien tiene el producto
       carts.forEach((cart) => {
+        // reviso cada producto del carrito
         cart.products.forEach(async (product) => {
           if (product.product == id) {
+            // borro el producto eliminado de los carritos de los usuarios
             cart.products.splice(product, 1);
             await cart.save();
             const user = await userModel.findOne({ cart: cart._id });
+            // si es usuario premium le mando un mail para avisarle de la baja del producto
             if (user.role == "premium") {
               const completeProduct = await productsModel.findById(
                 product.product
@@ -107,6 +111,7 @@ export default class ProductMongoDao {
           }
         });
       });
+      // borro el producto
       await productsModel.deleteOne({ _id: id });
       return "Producto eliminado";
     } catch (error) {
