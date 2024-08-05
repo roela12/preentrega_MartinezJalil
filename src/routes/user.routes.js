@@ -1,6 +1,7 @@
 import { Router } from "express";
 import userController from "../controllers/user.controller.js";
 import { useMulter } from "../utils.js";
+import { isAdmin } from "../middlewares/isAdmin.js";
 
 const router = Router();
 
@@ -10,13 +11,13 @@ const router = Router();
 router.get("/", userController.getUsers);
 
 // Borrar un usuario
-router.delete("/:uid", userController.deleteUser);
+router.delete("/:uid", isAdmin, userController.deleteUser);
 
 // Modificar el rol de un usuario
-router.put("/modifyRole/:uid/role/:role", userController.modifyRole);
+router.put("/modifyRole/:uid/role/:role", isAdmin, userController.modifyRole);
 
 // Borrar usuarios inactivos por mas de dos dias
-router.delete("/", userController.deleteInactiveUsers);
+router.delete("/", isAdmin, userController.deleteInactiveUsers);
 
 // Mejorar rol a premium
 router.put("/premium/:uid", userController.changeToPremium);

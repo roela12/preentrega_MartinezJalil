@@ -58,6 +58,25 @@ for (let i = 0; i < modifyRoleForm.length; i++) {
   });
 }
 
+const deleteInactiveForm = document.querySelector(".deleteInactive");
+
+deleteInactiveForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  fetch(`/api/users/`, {
+    method: "DELETE",
+  }).then((response) => {
+    if (response.status === 200) {
+      Swal.fire({
+        title: "Usuarios eliminados con exito",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        window.location.replace("/editUsers");
+      });
+    }
+  });
+});
+
 const goBackForm = document.querySelector(".goBack");
 
 goBackForm.addEventListener("submit", (e) => {
