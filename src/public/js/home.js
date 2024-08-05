@@ -19,6 +19,12 @@ for (let i = 0; i < addToCartForm.length; i++) {
           icon: "success",
           confirmButtonText: "OK",
         });
+      } else {
+        Swal.fire({
+          title: "Carrito no encontrado",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       }
     });
   });
