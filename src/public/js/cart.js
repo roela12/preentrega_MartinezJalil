@@ -39,3 +39,10 @@ purchaseCartForm.addEventListener("submit", (e) => {
     }
   });
 });
+
+const goBackForm = document.querySelector(".goBack");
+
+goBackForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  window.location.replace("/");
+});

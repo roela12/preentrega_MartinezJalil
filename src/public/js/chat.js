@@ -3,10 +3,10 @@ const socket = io();
 // Pregunto por el email
 window.onload = () => {
   Swal.fire({
-    title: "Igrese su email",
+    title: "Igrese su nombre",
     input: "email",
     inputValidator: (value) => {
-      return !value && "Necesitas escribir un email para continuar";
+      return !value && "Necesitas escribir un nombre para continuar";
     },
     confirmButtonText: "OK",
   }).then((result) => {
@@ -34,4 +34,11 @@ socket.on("messageLogs", (data) => {
   });
 
   log.innerHTML = messages;
+});
+
+const goBackForm = document.querySelector(".goBack");
+
+goBackForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  window.location.replace("/");
 });

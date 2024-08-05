@@ -57,3 +57,10 @@ for (let i = 0; i < modifyRoleForm.length; i++) {
     }
   });
 }
+
+const goBackForm = document.querySelector(".goBack");
+
+goBackForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  window.location.replace("/");
+});

@@ -57,3 +57,10 @@ document
     socket.emit("deleteProductData", productId);
     event.target.reset();
   });
+
+const goBackForm = document.querySelector(".goBack");
+
+goBackForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  window.location.replace("/");
+});

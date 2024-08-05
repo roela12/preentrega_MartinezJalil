@@ -1,5 +1,8 @@
 <div class="cart" data-cid="{{result2._id}}">
   <h1>Mi carrito</h1>
+  <form class="goBack">
+    <button class="btn btn-outline-secondary" type="submit">Volver</button>
+  </form>
   {{#each result2.products}}
     <h3>{{this.product.title}}</h3>
     <p>{{this.product.description}}</p>

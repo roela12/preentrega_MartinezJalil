@@ -5,14 +5,22 @@
   <p>Email: {{user.email}}</p>
   <p>Edad: {{user.age}}</p>
   <p>Rol: {{user.role}}</p>
-  <form id="myCart">
-    <button class="btn btn-outline-secondary" type="submit">Mi carrito</button>
-  </form>
   {{#if admin}}
+    <form id="addRemoveProducts">
+      <button class="btn btn-outline-secondary" type="submit">Agregar o eliminar
+        productos</button>
+    </form>
     <form id="users">
-      <button class="btn btn-outline-secondary" type="submit">Edit users</button>
+      <button class="btn btn-outline-secondary" type="submit">Editar usuarios</button>
+    </form>
+  {{else}}
+    <form id="myCart">
+      <button class="btn btn-outline-secondary" type="submit">Mi carrito</button>
     </form>
   {{/if}}
+  <form id="chatGeneral">
+    <button class="btn btn-outline-secondary" type="submit">Chat general</button>
+  </form>
   <form id="logout">
     <button class="btn btn-outline-secondary" type="submit">Logout</button>
   </form>

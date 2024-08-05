@@ -3,6 +3,8 @@ const addToCartForm = document.querySelectorAll(".addToCart");
 const editUsersForm = document.getElementById("users");
 const myCartForm = document.getElementById("myCart");
 const cid = document.querySelector(".cart").dataset.cid;
+const addRemoveProductsForm = document.getElementById("addRemoveProducts");
+const chatGeneralForm = document.getElementById("chatGeneral");
 
 for (let i = 0; i < addToCartForm.length; i++) {
   addToCartForm[i].addEventListener("submit", (e) => {
@@ -46,7 +48,21 @@ if (editUsersForm) {
   });
 }
 
-myCartForm.addEventListener("submit", (e) => {
+if (myCartForm) {
+  myCartForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    window.location.replace(`/cart/?cid=${cid}`);
+  });
+}
+
+if (addRemoveProductsForm) {
+  addRemoveProductsForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    window.location.replace("/realtimeproducts");
+  });
+}
+
+chatGeneralForm.addEventListener("submit", (e) => {
   e.preventDefault();
-  window.location.replace(`/cart/?cid=${cid}`);
+  window.location.replace("/chat");
 });
