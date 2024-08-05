@@ -15,7 +15,7 @@ router.get("/", isAdmin, async (req, res) => {
       { page, limit: limit, lean: true }
     );
     const PORT = entorno.port;
-    const link = `http://localhost:${PORT}/editUsers/?limit=${limit}`;
+    const link = `/editUsers/?limit=${limit}`;
     result.nextLink = result.hasNextPage
       ? `${link}&page=${result.nextPage}`
       : "";

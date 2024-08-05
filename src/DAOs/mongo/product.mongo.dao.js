@@ -33,7 +33,7 @@ export default class ProductMongoDao {
       });
 
       const PORT = entorno.port;
-      const link = `http://localhost:${PORT}/?limit=${limit}`;
+      const link = `/?limit=${limit}`;
       result.nextLink = result.hasNextPage
         ? `${link}&page=${result.nextPage}`
         : "";
