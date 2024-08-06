@@ -76,7 +76,8 @@ const initializePassport = () => {
       {
         clientID: "Iv1.e893f1b4611bcbd8",
         clientSecret: "6d9f5c8bcac4618f627b512a7ac5d5c153fa44bd",
-        callbackURL: `preentregamartinezjalil-production.up.railway.app/api/sessions/githubcallback`,
+        callbackURL:
+          "https://preentregamartinezjalil-production.up.railway.app/api/sessions/githubcallback",
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
